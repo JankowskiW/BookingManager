@@ -1,0 +1,35 @@
+package pl.wj.bookingmanager.domain.userprocessor.model;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserSecurityDto;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class UserMapper {
+    public static CustomUserDetails toCustomUserDetails(User user) {
+        return CustomUserDetails.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .phoneNumber(user.getPhoneNumber())
+                .emailAddress(user.getEmailAddress())
+                .build();
+    }
+
+    public static User toUser(CustomUserDetails customUserDetails) {
+        return User.builder()
+                .id(customUserDetails.id())
+                .username(customUserDetails.username())
+                .password(customUserDetails.password())
+                .phoneNumber(customUserDetails.phoneNumber())
+                .emailAddress(customUserDetails.emailAddress())
+                .build();
+    }
+
+    public static UserSecurityDto toUserSecurityDto(CustomUserDetails customUserDetails) {
+        return UserSecurityDto.builder()
+                .username(customUserDetails.username())
+                .password(customUserDetails.password())
+                .build();
+    }
+}
