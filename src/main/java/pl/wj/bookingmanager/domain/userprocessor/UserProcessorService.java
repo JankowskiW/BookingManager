@@ -40,9 +40,9 @@ public class UserProcessorService {
 
     public UserResponseDto updateUser(long id, UserUpdateRequestDto userUpdateRequestDto) {
         if (userRepository.existsByUsernameAndIdIsNot(userUpdateRequestDto.username(), id))
-            throw new ResourceAlreadyExistsException("User with username " + userUpdateRequestDto.username() + " already exists xzx");
+            throw new ResourceAlreadyExistsException("User with username " + userUpdateRequestDto.username() + " already exists");
         if (userRepository.existsByEmailAddressAndIdIsNot(userUpdateRequestDto.emailAddress(), id))
-            throw new ResourceAlreadyExistsException("User with email address " + userUpdateRequestDto.emailAddress() + " already exists xzx");
+            throw new ResourceAlreadyExistsException("User with email address " + userUpdateRequestDto.emailAddress() + " already exists");
         String encodedPassword = passwordEncoder.encode(userUpdateRequestDto.password());
         User user = UserMapper.toUser(id, userUpdateRequestDto, encodedPassword);
         user = userRepository.save(user);
