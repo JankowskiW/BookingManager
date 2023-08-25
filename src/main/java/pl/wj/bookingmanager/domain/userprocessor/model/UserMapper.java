@@ -17,13 +17,13 @@ public class UserMapper {
     }
 
     public static User toUser(CustomUserDetails customUserDetails) {
-        return User.builder()
-                .id(customUserDetails.id())
-                .username(customUserDetails.username())
-                .password(customUserDetails.password())
-                .phoneNumber(customUserDetails.phoneNumber())
-                .emailAddress(customUserDetails.emailAddress())
-                .build();
+        User user = new User();
+        user.setId(customUserDetails.id());
+        user.setUsername(customUserDetails.username());
+        user.setPassword(customUserDetails.password());
+        user.setEmailAddress(customUserDetails.phoneNumber());
+        user.setPhoneNumber(customUserDetails.emailAddress());
+        return user;
     }
 
     public static UserSecurityDto toUserSecurityDto(CustomUserDetails customUserDetails) {
