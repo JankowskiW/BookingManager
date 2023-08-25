@@ -8,7 +8,8 @@ import pl.wj.bookingmanager.domain.userprocessor.model.UserMapper;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserRegisterRequestDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserResponseDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserSecurityDto;
-import pl.wj.bookingmanager.infrastructure.application.exception.definition.ResourceAlreadyExistsException;
+import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserUpdateRequestDto;
+import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceAlreadyExistsException;
 
 import java.util.List;
 
@@ -33,6 +34,17 @@ public class UserProcessorService {
             throw new ResourceAlreadyExistsException("User with email address " + userRegisterRequestDto.emailAddress() + " already exists");
         String encodedPassword = passwordEncoder.encode(userRegisterRequestDto.password());
         User user = UserMapper.toUser(userRegisterRequestDto, encodedPassword);
+        user = userRepository.save(user);
+        return UserMapper.toUserResponseDto(user);
+    }
+
+    public UserResponseDto updateUser(long id, UserUpdateRequestDto userUpdateRequestDto) {
+        if (userRepository.existsByUsernameAndIdIsNot(userUpdateRequestDto.username(), id))
+            throw new ResourceAlreadyExistsException("User with username " + userUpdateRequestDto.username() + " already exists xzx");
+        if (userRepository.existsByEmailAddressAndIdIsNot(userUpdateRequestDto.emailAddress(), id))
+            throw new ResourceAlreadyExistsException("User with email address " + userUpdateRequestDto.emailAddress() + " already exists xzx");
+        String encodedPassword = passwordEncoder.encode(userUpdateRequestDto.password());
+        User user = UserMapper.toUser(id, userUpdateRequestDto, encodedPassword);
         user = userRepository.save(user);
         return UserMapper.toUserResponseDto(user);
     }

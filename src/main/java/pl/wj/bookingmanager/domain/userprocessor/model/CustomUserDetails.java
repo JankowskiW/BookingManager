@@ -11,8 +11,11 @@ public record CustomUserDetails (
         long id,
         String username,
         String password,
+        String firstName,
+        String lastName,
         String phoneNumber,
-        String emailAddress
+        String emailAddress,
+        boolean archived
 ) implements UserDetails {
 
     @Override

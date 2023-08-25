@@ -1,4 +1,4 @@
-package pl.wj.bookingmanager.infrastructure.application.exception.definition;
+package pl.wj.bookingmanager.infrastructure.exception.definition;
 
 public class ResourceAlreadyExistsException extends RuntimeException {
     public ResourceAlreadyExistsException(String message) {

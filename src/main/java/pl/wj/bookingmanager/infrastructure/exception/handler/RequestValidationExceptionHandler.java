@@ -1,4 +1,4 @@
-package pl.wj.bookingmanager.infrastructure.application.exception.handler;
+package pl.wj.bookingmanager.infrastructure.exception.handler;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import pl.wj.bookingmanager.infrastructure.application.exception.body.RequestValidationExceptionBody;
+import pl.wj.bookingmanager.infrastructure.exception.body.RequestValidationExceptionBody;
 
 import java.time.ZonedDateTime;
 import java.util.List;

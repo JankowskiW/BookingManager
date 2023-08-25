@@ -1,4 +1,4 @@
-package pl.wj.bookingmanager.infrastructure.application.exception.body;
+package pl.wj.bookingmanager.infrastructure.exception.body;
 
 import org.springframework.http.HttpStatus;
 

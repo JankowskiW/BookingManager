@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserRegisterRequestDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserResponseDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserSecurityDto;
+import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserUpdateRequestDto;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserMapper {
@@ -13,8 +14,11 @@ public class UserMapper {
                 .id(user.getId())
                 .username(user.getUsername())
                 .password(user.getPassword())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
                 .phoneNumber(user.getPhoneNumber())
                 .emailAddress(user.getEmailAddress())
+                .archived(user.isArchived())
                 .build();
     }
 
@@ -22,8 +26,24 @@ public class UserMapper {
         return User.builder()
                 .username(userRegisterRequestDto.username())
                 .password(encodedPassword)
+                .firstName(userRegisterRequestDto.firstName())
+                .lastName(userRegisterRequestDto.lastName())
                 .phoneNumber(userRegisterRequestDto.phoneNumber())
                 .emailAddress(userRegisterRequestDto.emailAddress())
+                .archived(false)
+                .build();
+    }
+
+    public static User toUser(long id, UserUpdateRequestDto userUpdateRequestDto, String encodedPassword) {
+        return User.builder()
+                .id(id)
+                .username(userUpdateRequestDto.username())
+                .password(encodedPassword)
+                .firstName(userUpdateRequestDto.firstName())
+                .lastName(userUpdateRequestDto.lastName())
+                .phoneNumber(userUpdateRequestDto.phoneNumber())
+                .emailAddress(userUpdateRequestDto.emailAddress())
+                .archived(userUpdateRequestDto.archived())
                 .build();
     }
 
@@ -31,8 +51,11 @@ public class UserMapper {
         return UserResponseDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
                 .phoneNumber(user.getPhoneNumber())
                 .emailAddress(user.getEmailAddress())
+                .archived(user.isArchived())
                 .build();
     }
 

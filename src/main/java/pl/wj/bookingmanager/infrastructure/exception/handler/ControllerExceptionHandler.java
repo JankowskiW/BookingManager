@@ -1,4 +1,4 @@
-package pl.wj.bookingmanager.infrastructure.application.exception.handler;
+package pl.wj.bookingmanager.infrastructure.exception.handler;
 
 
 import lombok.extern.log4j.Log4j2;
@@ -7,9 +7,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import pl.wj.bookingmanager.infrastructure.application.exception.body.ExceptionBody;
-import pl.wj.bookingmanager.infrastructure.application.exception.definition.ResourceAlreadyExistsException;
-import pl.wj.bookingmanager.infrastructure.application.exception.definition.ResourceNotFoundException;
+import pl.wj.bookingmanager.infrastructure.exception.body.ExceptionBody;
+import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceAlreadyExistsException;
+import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
 
 import java.time.ZonedDateTime;
 
