@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
-import pl.wj.bookingmanager.domain.userprocessor.model.CustomUserDetails;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserLoginRequestDto;
 import pl.wj.bookingmanager.infrastructure.security.model.dto.JwtResponseDto;
 import pl.wj.bookingmanager.infrastructure.security.properties.SecurityProperties;
@@ -23,23 +23,23 @@ public class SecurityService {
 
 
     public JwtResponseDto login(UserLoginRequestDto userLoginRequestDto) {
-        CustomUserDetails customUserDetails = getAuthenticatedUser(userLoginRequestDto.username(), userLoginRequestDto.password());
+        User user = getAuthenticatedUser(userLoginRequestDto.username(), userLoginRequestDto.password());
         return JwtResponseDto.builder()
-                .token(createToken(customUserDetails))
-                .username(customUserDetails.getUsername())
+                .token(createToken(user))
+                .username(user.getUsername())
                 .build();
     }
 
-    private CustomUserDetails getAuthenticatedUser(String username, String password) {
+    private User getAuthenticatedUser(String username, String password) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        return (CustomUserDetails) authentication.getPrincipal();
+        return (User) authentication.getPrincipal();
     }
 
-    private String createToken(CustomUserDetails customUserDetails) {
+    private String createToken(User user) {
         Instant now = Instant.now();
         return JWT.create()
-                .withSubject(customUserDetails.getUsername())
+                .withSubject(user.getUsername())
                 .withIssuedAt(now)
                 .withExpiresAt(now.plus(Duration.ofDays(securityProperties.expirationDays())))
                 .withIssuer(securityProperties.issuer())
