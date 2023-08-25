@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 import pl.wj.bookingmanager.domain.userprocessor.model.CustomUserDetails;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserLoginRequestDto;
 import pl.wj.bookingmanager.infrastructure.security.model.dto.JwtResponseDto;
@@ -15,6 +16,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 @RequiredArgsConstructor
+@Service
 public class SecurityService {
     private final AuthenticationManager authenticationManager;
     private final SecurityProperties securityProperties;

@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/users/login/**").permitAll()
                         .requestMatchers("/users/register/**").permitAll()
                         .requestMatchers("/swagger-resources/**").permitAll()
+                        .requestMatchers("/users/**").permitAll() // TODO: remove this matcher - only for tests
                         .anyRequest().authenticated())
                 .headers().frameOptions().disable()
                 .and().httpBasic().disable()
