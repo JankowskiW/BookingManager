@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 @Entity
 @Table(name = "room_groups")
-
 public class RoomGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
