@@ -32,6 +32,22 @@ public class UserProcessorController {
         return userProcessorService.getUsers(pageable);
     }
 
+    @GetMapping("/archived")
+    public Page<User> getArchivedUsers(@RequestParam int pageNumber, @RequestParam int pageSize,
+                               @RequestParam Sort.Direction direction, @RequestParam String directionField) {
+        // page number should be decremented, because PageRequest starts counting pages from 0, not from 1
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, directionField);
+        return userProcessorService.getArchivedUsers(pageable);
+    }
+
+    @GetMapping("/active")
+    public Page<User> getActiveUsers(@RequestParam int pageNumber, @RequestParam int pageSize,
+                                       @RequestParam Sort.Direction direction, @RequestParam String directionField) {
+        // page number should be decremented, because PageRequest starts counting pages from 0, not from 1
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, directionField);
+        return userProcessorService.getActiveUsers(pageable);
+    }
+
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponseDto registerUser(@Valid @RequestBody UserRegisterRequestDto userRegisterRequestDto) {

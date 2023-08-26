@@ -31,6 +31,14 @@ public class UserProcessorService {
         return userRepository.findAll(pageable);
     }
 
+    public Page<User> getArchivedUsers(Pageable pageable) {
+        return userRepository.findAllByArchived(true, pageable);
+    }
+
+    public Page<User> getActiveUsers(Pageable pageable) {
+        return userRepository.findAllByArchived(false, pageable);
+    }
+
     public UserResponseDto addUser(UserRegisterRequestDto userRegisterRequestDto) {
         throwIfNewUserExists(userRegisterRequestDto);
         String encodedPassword = passwordEncoder.encode(userRegisterRequestDto.password());
