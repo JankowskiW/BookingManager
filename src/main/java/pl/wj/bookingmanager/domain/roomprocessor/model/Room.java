@@ -12,6 +12,11 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String name;
+    private String description;
+    private String location; // TODO: think about it.. maybe it will be better to put some enum or sth like that here instead of string
+    @Column(columnDefinition = "bit default 1")
+    private boolean available;
 
     @ManyToMany(mappedBy = "rooms")
     private Set<RoomGroup> groups = new HashSet<>();

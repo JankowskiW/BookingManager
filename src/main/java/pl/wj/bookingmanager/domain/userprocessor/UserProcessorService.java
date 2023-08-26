@@ -21,22 +21,22 @@ public class UserProcessorService {
     private final PasswordEncoder passwordEncoder;
 
 
-    public UserSecurityDto getUserByUsername(String username) {
+    public UserSecurityDto getUserSecurityDtoByUsername(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new ResourceNotFoundException("User with username " + username + " not found"));
         return UserMapper.toUserSecurityDto(UserMapper.toCustomUserDetails(user));
     }
 
-    public Page<User> getUsers(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public Page<UserResponseDto> getUsers(Pageable pageable) {
+        return UserMapper.toUserResponseDtoPage(userRepository.findAll(pageable));
     }
 
-    public Page<User> getArchivedUsers(Pageable pageable) {
-        return userRepository.findAllByArchived(true, pageable);
+    public Page<UserResponseDto> getArchivedUsers(Pageable pageable) {
+        return UserMapper.toUserResponseDtoPage(userRepository.findAllByArchived(true, pageable));
     }
 
-    public Page<User> getActiveUsers(Pageable pageable) {
-        return userRepository.findAllByArchived(false, pageable);
+    public Page<UserResponseDto> getActiveUsers(Pageable pageable) {
+        return UserMapper.toUserResponseDtoPage(userRepository.findAllByArchived(false, pageable));
     }
 
     public UserResponseDto addUser(UserRegisterRequestDto userRegisterRequestDto) {

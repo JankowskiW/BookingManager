@@ -12,6 +12,6 @@ public class LoginUserDetailsService implements UserDetailsService {
     private final UserProcessorService userProcessorService;
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        return SecurityMapper.toSecurityUser(userProcessorService.getUserByUsername(username));
+        return SecurityMapper.toSecurityUser(userProcessorService.getUserSecurityDtoByUsername(username));
     }
 }

@@ -20,5 +20,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByEmailAddressAndIdIsNot(String emailAddress, long id);
 
-    Page<User> findAllByArchived(boolean b, Pageable pageable);
+    Page<User> findAllByArchived(boolean archived, Pageable pageable);
 }

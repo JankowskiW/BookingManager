@@ -14,6 +14,8 @@ public class Device {
     private long id;
     private String name;
     private String description;
+    @Column(columnDefinition = "bit default 1")  // boolean default true
+    private boolean available;
 
     @ManyToMany(mappedBy = "devices")
     private Set<DeviceGroup> groups = new HashSet<>();

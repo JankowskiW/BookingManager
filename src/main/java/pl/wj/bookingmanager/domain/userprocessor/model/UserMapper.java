@@ -2,6 +2,7 @@ package pl.wj.bookingmanager.domain.userprocessor.model;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserRegisterRequestDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserResponseDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserSecurityDto;
@@ -64,5 +65,9 @@ public class UserMapper {
                 .username(customUserDetails.username())
                 .password(customUserDetails.password())
                 .build();
+    }
+
+    public static Page<UserResponseDto> toUserResponseDtoPage(Page<User> users) {
+        return users.map(UserMapper::toUserResponseDto);
     }
 }

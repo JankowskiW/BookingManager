@@ -1,4 +1,6 @@
 package pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto;
 
-public class DeviceGroupRequestDto {
-}
+public record DeviceGroupRequestDto (
+        String name,
+        String description
+) {}

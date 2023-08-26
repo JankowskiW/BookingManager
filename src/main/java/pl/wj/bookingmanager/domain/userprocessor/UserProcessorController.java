@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.wj.bookingmanager.domain.userprocessor.model.User;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserLoginRequestDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserRegisterRequestDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserResponseDto;
@@ -25,7 +24,7 @@ public class UserProcessorController {
     private final SecurityService securityService;
 
     @GetMapping
-    public Page<User> getUsers(@RequestParam int pageNumber, @RequestParam int pageSize,
+    public Page<UserResponseDto> getUsers(@RequestParam int pageNumber, @RequestParam int pageSize,
                                @RequestParam Sort.Direction direction, @RequestParam String directionField) {
         // page number should be decremented, because PageRequest starts counting pages from 0, not from 1
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, directionField);
@@ -33,7 +32,7 @@ public class UserProcessorController {
     }
 
     @GetMapping("/archived")
-    public Page<User> getArchivedUsers(@RequestParam int pageNumber, @RequestParam int pageSize,
+    public Page<UserResponseDto> getArchivedUsers(@RequestParam int pageNumber, @RequestParam int pageSize,
                                @RequestParam Sort.Direction direction, @RequestParam String directionField) {
         // page number should be decremented, because PageRequest starts counting pages from 0, not from 1
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, directionField);
@@ -41,7 +40,7 @@ public class UserProcessorController {
     }
 
     @GetMapping("/active")
-    public Page<User> getActiveUsers(@RequestParam int pageNumber, @RequestParam int pageSize,
+    public Page<UserResponseDto> getActiveUsers(@RequestParam int pageNumber, @RequestParam int pageSize,
                                        @RequestParam Sort.Direction direction, @RequestParam String directionField) {
         // page number should be decremented, because PageRequest starts counting pages from 0, not from 1
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, directionField);
