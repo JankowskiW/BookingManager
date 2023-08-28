@@ -1,10 +1,7 @@
 package pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
 
 import java.util.HashSet;
@@ -15,17 +12,20 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Getter
 public class DeviceGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String description;
-    @Column(columnDefinition = "bit default 1")  // boolean default true
+    @Column(columnDefinition = "bit default 1", nullable = false)  // boolean default true
     private boolean available;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "group_devices",
             joinColumns = { @JoinColumn(name = "group_id") },
