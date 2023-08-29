@@ -23,7 +23,7 @@ public class UserProcessorService {
 
     public UserSecurityDto getUserSecurityDtoByUsername(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new ResourceNotFoundException("User with username " + username + " not found"));
+                () -> new ResourceNotFoundException("User with username " + username + " does not exist"));
         return UserMapper.toUserSecurityDto(UserMapper.toCustomUserDetails(user));
     }
 

@@ -35,7 +35,6 @@ public class Booking {
     @Column(nullable = false)
     private LocalDateTime createdAt;
     @UpdateTimestamp
-    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
