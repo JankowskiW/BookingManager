@@ -1,7 +1,7 @@
 package pl.wj.bookingmanager.domain.roomprocessor.model;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.Booking;
 import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.RoomGroup;
 
@@ -11,6 +11,10 @@ import java.util.Set;
 @Entity
 @Table(name = "rooms")
 @EqualsAndHashCode
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

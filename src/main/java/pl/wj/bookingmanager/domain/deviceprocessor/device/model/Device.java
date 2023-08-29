@@ -1,7 +1,7 @@
 package pl.wj.bookingmanager.domain.deviceprocessor.device.model;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.Booking;
 import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.DeviceGroup;
 
@@ -11,6 +11,10 @@ import java.util.Set;
 @Entity
 @Table(name = "devices")
 @EqualsAndHashCode
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class Device {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

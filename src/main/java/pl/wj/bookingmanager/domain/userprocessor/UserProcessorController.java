@@ -9,9 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.wj.bookingmanager.domain.commentprocessor.CommentProcessorService;
-import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentResponseDto;
-import pl.wj.bookingmanager.domain.commentprocessor.model.dto.UserCommentRequestDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserLoginRequestDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserRegisterRequestDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserResponseDto;
@@ -24,7 +21,6 @@ import pl.wj.bookingmanager.infrastructure.security.model.dto.JwtResponseDto;
 @RequestMapping("/users")
 public class UserProcessorController {
     private final UserProcessorService userProcessorService;
-    private final CommentProcessorService commentProcessorService;
     private final SecurityService securityService;
 
     @GetMapping
@@ -71,10 +67,5 @@ public class UserProcessorController {
                                Returns updated user without password field.""")
     public UserResponseDto updateUser(@PathVariable long id, @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
         return userProcessorService.updateUser(id, userUpdateRequestDto);
-    }
-
-    @PostMapping("/comment")
-    public CommentResponseDto addComment(@RequestBody UserCommentRequestDto userCommentRequestDto) {
-        return commentProcessorService.addComment(userCommentRequestDto);
     }
 }

@@ -1,7 +1,7 @@
 package pl.wj.bookingmanager.domain.bookingprocessor.booking.model;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
@@ -15,6 +15,10 @@ import java.util.Set;
 @Entity
 @Table(name = "bookings")
 @EqualsAndHashCode
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +35,7 @@ public class Booking {
     @Column(nullable = false)
     private LocalDateTime createdAt;
     @UpdateTimestamp
+    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
