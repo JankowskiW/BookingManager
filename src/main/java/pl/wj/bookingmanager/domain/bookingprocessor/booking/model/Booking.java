@@ -16,6 +16,7 @@ import java.util.Set;
 @Table(name = "bookings")
 @EqualsAndHashCode
 @Builder
+@With
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

@@ -30,4 +30,10 @@ public class Device {
     private Set<DeviceGroup> groups = new HashSet<>();
     @ManyToMany(mappedBy = "devices")
     private Set<Booking> bookings = new HashSet<>();
+
+    public static Device createWithId(long id) {
+        Device device = new Device();
+        device.id = id;
+        return device;
+    }
 }

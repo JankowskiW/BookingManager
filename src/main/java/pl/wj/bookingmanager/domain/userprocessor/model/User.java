@@ -38,4 +38,10 @@ public class User {
     private Set<Booking> updatedBookings = new HashSet<>();
     @OneToMany(mappedBy = "createdByUser")
     private Set<Comment> createdComments = new HashSet<>();
+
+    public static User createWithId(long id) {
+        User user = new User();
+        user.id = id;
+        return user;
+    }
 }

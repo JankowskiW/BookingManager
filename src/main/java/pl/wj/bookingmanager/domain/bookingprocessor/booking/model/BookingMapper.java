@@ -1,5 +1,6 @@
 package pl.wj.bookingmanager.domain.bookingprocessor.booking.model;
 
+import org.springframework.data.domain.Page;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingRequestDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingResponseDto;
 import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
@@ -12,6 +13,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BookingMapper {
+
+    public static Booking toBooking(long id, User updatedByUser, BookingRequestDto bookingRequestDto) {
+        return toBooking(updatedByUser, bookingRequestDto).withId(id);
+    }
+
     public static Booking toBooking(User createdByUser, BookingRequestDto bookingRequestDto) {
         return Booking.builder()
                 .title(bookingRequestDto.title())
@@ -38,12 +44,23 @@ public class BookingMapper {
     }
 
     public static BookingResponseDto toBookingResponseDto(Booking booking) {
-        return BookingResponseDto.builder()
+        BookingResponseDto.BookingResponseDtoBuilder builder = BookingResponseDto.builder()
                 .id(booking.getId())
                 .title(booking.getTitle())
                 .description(booking.getDescription())
                 .validFrom(booking.getValidFrom())
                 .validTo(booking.getValidTo())
-                .build();
+                .createdAt(booking.getCreatedAt())
+                .updatedAt(booking.getUpdatedAt())
+                .createdBy(booking.getCreatedByUser().getId())
+                .updatedBy(booking.getUpdatedByUser().getId());
+        if (booking.getRoom() != null) builder.roomId(Optional.of(booking.getRoom().getId()));
+        if (booking.getDevices() != null)
+            builder.devicesIds(Optional.of(booking.getDevices().stream().map(Device::getId).collect(Collectors.toSet())));
+        return builder.build();
+    }
+
+    public static Page<BookingResponseDto> toBookingResponseDtoPage(Page<Booking> bookings) {
+        return bookings.map(BookingMapper::toBookingResponseDto);
     }
 }
