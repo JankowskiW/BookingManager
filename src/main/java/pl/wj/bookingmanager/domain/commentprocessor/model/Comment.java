@@ -3,7 +3,6 @@ package pl.wj.bookingmanager.domain.commentprocessor.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import pl.wj.bookingmanager.domain.userprocessor.model.User;
 
 import java.time.LocalDateTime;
 
@@ -24,11 +23,10 @@ public class Comment {
     private String title;
     @Column(nullable = false)
     private String body;
+    @Column(nullable = false)
+    private long createdBy;
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createdAt;
-    @ManyToOne
-    @JoinColumn(name="created_by", nullable = false)
-    private User createdByUser;
 
 }

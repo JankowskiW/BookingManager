@@ -25,25 +25,25 @@ public class UserProcessorController {
 
     @GetMapping
     public Page<UserResponseDto> getUsers(@RequestParam int pageNumber, @RequestParam int pageSize,
-                               @RequestParam Sort.Direction direction, @RequestParam String directionField) {
+                               @RequestParam Sort.Direction direction, @RequestParam String sortBy) {
         // page number should be decremented, because PageRequest starts counting pages from 0, not from 1
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, directionField);
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, sortBy);
         return userProcessorService.getUsers(pageable);
     }
 
     @GetMapping("/archived")
     public Page<UserResponseDto> getArchivedUsers(@RequestParam int pageNumber, @RequestParam int pageSize,
-                               @RequestParam Sort.Direction direction, @RequestParam String directionField) {
+                               @RequestParam Sort.Direction direction, @RequestParam String sortBy) {
         // page number should be decremented, because PageRequest starts counting pages from 0, not from 1
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, directionField);
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, sortBy);
         return userProcessorService.getArchivedUsers(pageable);
     }
 
     @GetMapping("/active")
     public Page<UserResponseDto> getActiveUsers(@RequestParam int pageNumber, @RequestParam int pageSize,
-                                       @RequestParam Sort.Direction direction, @RequestParam String directionField) {
+                                       @RequestParam Sort.Direction direction, @RequestParam String sortBy) {
         // page number should be decremented, because PageRequest starts counting pages from 0, not from 1
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, directionField);
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, sortBy);
         return userProcessorService.getActiveUsers(pageable);
     }
 

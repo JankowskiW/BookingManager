@@ -34,22 +34,22 @@ public class GroupProcessorController {
 
     @GetMapping("/device-groups")
     public Page<DeviceGroupResponseDto> getDeviceGroups(@RequestParam int pageNumber, @RequestParam int pageSize,
-                                                        @RequestParam Sort.Direction direction, @RequestParam String directionField) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, directionField);
+                                                        @RequestParam Sort.Direction direction, @RequestParam String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, sortBy);
         return groupProcessorService.getDeviceGroups(pageable);
     }
 
     @GetMapping("/device-groups/available")
     public Page<DeviceGroupResponseDto> getAvailableDeviceGroups(@RequestParam int pageNumber, @RequestParam int pageSize,
-                                                                 @RequestParam Sort.Direction direction, @RequestParam String directionField) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, directionField);
+                                                                 @RequestParam Sort.Direction direction, @RequestParam String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, sortBy);
         return groupProcessorService.getAvailableDeviceGroups(pageable);
     }
 
     @GetMapping("/device-groups/unavailable")
     public Page<DeviceGroupResponseDto> getUnavailableDeviceGroups(@RequestParam int pageNumber, @RequestParam int pageSize,
-                                                                 @RequestParam Sort.Direction direction, @RequestParam String directionField) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, directionField);
+                                                                 @RequestParam Sort.Direction direction, @RequestParam String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, sortBy);
         return groupProcessorService.getUnavailableDeviceGroups(pageable);
     }
 
@@ -68,22 +68,22 @@ public class GroupProcessorController {
 
     @GetMapping("/room-groups")
     public Page<RoomGroupResponseDto> getRoomGroups(@RequestParam int pageNumber, @RequestParam int pageSize,
-                                                        @RequestParam Sort.Direction direction, @RequestParam String directionField) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, directionField);
+                                                        @RequestParam Sort.Direction direction, @RequestParam String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, sortBy);
         return groupProcessorService.getRoomGroups(pageable);
     }
 
     @GetMapping("/room-groups/available")
     public Page<RoomGroupResponseDto> getAvailableRoomGroups(@RequestParam int pageNumber, @RequestParam int pageSize,
-                                                                 @RequestParam Sort.Direction direction, @RequestParam String directionField) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, directionField);
+                                                                 @RequestParam Sort.Direction direction, @RequestParam String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, sortBy);
         return groupProcessorService.getAvailableRoomGroups(pageable);
     }
 
     @GetMapping("/room-groups/unavailable")
     public Page<RoomGroupResponseDto> getUnavailableRoomGroups(@RequestParam int pageNumber, @RequestParam int pageSize,
-                                                                   @RequestParam Sort.Direction direction, @RequestParam String directionField) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, directionField);
+                                                                   @RequestParam Sort.Direction direction, @RequestParam String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, sortBy);
         return groupProcessorService.getUnavailableRoomGroups(pageable);
     }
 }

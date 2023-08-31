@@ -31,5 +31,6 @@ public class DeviceGroup {
             joinColumns = { @JoinColumn(name = "group_id") },
             inverseJoinColumns = { @JoinColumn(name = "device_id") }
     )
+    @Builder.Default
     private Set<Device> devices = new HashSet<>();
 }

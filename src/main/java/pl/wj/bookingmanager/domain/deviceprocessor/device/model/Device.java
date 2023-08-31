@@ -3,9 +3,7 @@ package pl.wj.bookingmanager.domain.deviceprocessor.device.model;
 import jakarta.persistence.*;
 import lombok.*;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.Booking;
-import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.DeviceGroup;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,14 +24,8 @@ public class Device {
     @Column(columnDefinition = "bit default 1", nullable = false)  // boolean default true
     private boolean available;
 
+//    @ManyToMany(mappedBy = "devices", fetch = FetchType.LAZY)
+//    private Set<DeviceGroup> groups = new HashSet<>();
     @ManyToMany(mappedBy = "devices")
-    private Set<DeviceGroup> groups = new HashSet<>();
-    @ManyToMany(mappedBy = "devices")
-    private Set<Booking> bookings = new HashSet<>();
-
-    public static Device createWithId(long id) {
-        Device device = new Device();
-        device.id = id;
-        return device;
-    }
+    private Set<Booking> bookings;// = new HashSet<>();
 }

@@ -6,17 +6,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
 import pl.wj.bookingmanager.domain.roomprocessor.model.Room;
-import pl.wj.bookingmanager.domain.userprocessor.model.User;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "bookings")
 @EqualsAndHashCode
 @Builder
-@With
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -38,21 +35,18 @@ public class Booking {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
-    @ManyToOne
-    @JoinColumn(name="created_by", nullable = false)
-    private User createdByUser;
-    @ManyToOne
-    @JoinColumn(name="updated_by", nullable = false)
-    private User updatedByUser;
-    @ManyToOne
-    @JoinColumn(name="room_id")
+    @Column(nullable = false)
+    private long createdBy;
+    @Column(nullable = false)
+    private long updatedBy;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id", updatable = false, insertable = false)
     private Room room;
     @ManyToMany
     @JoinTable(
             name = "booking_devices",
-            joinColumns = { @JoinColumn(name = "booking_id") },
-            inverseJoinColumns = { @JoinColumn(name = "device_id") }
+            joinColumns = { @JoinColumn(name = "booking_id", insertable = false, updatable = false) },
+            inverseJoinColumns = { @JoinColumn(name = "device_id", insertable = false, updatable = false) }
     )
-    private Set<Device> devices = new HashSet<>();
+    private Set<Device> devices;// = new HashSet<>();
 }

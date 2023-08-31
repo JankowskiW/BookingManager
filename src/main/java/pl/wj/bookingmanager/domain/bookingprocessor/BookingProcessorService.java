@@ -7,50 +7,39 @@ import org.springframework.stereotype.Service;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.BookingRepository;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.Booking;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.BookingMapper;
+import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedDeviceDto;
+import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedRoomDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingRequestDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingResponseDto;
-import pl.wj.bookingmanager.domain.deviceprocessor.DeviceProcessorService;
-import pl.wj.bookingmanager.domain.roomprocessor.RoomProcessorService;
+import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
 import pl.wj.bookingmanager.domain.userprocessor.model.User;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
 import pl.wj.bookingmanager.infrastructure.security.SecurityService;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class BookingProcessorService {
     private final BookingRepository bookingRepository;
-    private final DeviceProcessorService deviceProcessorService;
-    private final RoomProcessorService roomProcessorService;
     private final SecurityService securityService;
     private final Clock clock;
 
     public BookingResponseDto addBooking(BookingRequestDto bookingRequestDto) {
-        System.out.println("B");
-        if (bookingRequestDto.roomId().isPresent())
-            roomProcessorService.throwIfNotExistsById(bookingRequestDto.roomId().get());
-        System.out.println("C");
-        if (bookingRequestDto.devicesIds().isPresent() && !bookingRequestDto.devicesIds().get().isEmpty())
-            deviceProcessorService.throwIfNotExistsById(bookingRequestDto.devicesIds().get());
-        System.out.println("D");
         User createdByUser = securityService.getAuthenticatedUser();
-        System.out.println("E");
-        Booking booking = BookingMapper.toBooking(createdByUser, bookingRequestDto);
-        System.out.println("F");
+        Booking booking = BookingMapper.toBooking(createdByUser.getId(), bookingRequestDto);
         booking = bookingRepository.save(booking);
         return BookingMapper.toBookingResponseDto(booking);
     }
 
     public BookingResponseDto updateBooking(long id, BookingRequestDto bookingRequestDto) {
-        throwIfNotExistsById(id);
-        if (bookingRequestDto.roomId().isPresent())
-            roomProcessorService.throwIfNotExistsById(bookingRequestDto.roomId().get());
-        if (bookingRequestDto.devicesIds().isPresent() && !bookingRequestDto.devicesIds().get().isEmpty())
-            deviceProcessorService.throwIfNotExistsById(bookingRequestDto.devicesIds().get());
-        User createdByUser = securityService.getAuthenticatedUser();
-        Booking booking = BookingMapper.toBooking(id, createdByUser, bookingRequestDto);
+        Booking booking = bookingRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Booking with id " + id + " does not exist"));
+        User updatedByUser = securityService.getAuthenticatedUser();
+        booking = BookingMapper.toBooking(updatedByUser.getId(), booking, bookingRequestDto);
         booking = bookingRepository.save(booking);
         return BookingMapper.toBookingResponseDto(booking);
     }
@@ -65,7 +54,7 @@ public class BookingProcessorService {
         return BookingMapper.toBookingResponseDto(booking);
     }
 
-    public Page<BookingResponseDto> getBookings(Pageable pageable) {
+    public Page<BookingResponseDto> getAllBookings(Pageable pageable) {
         Page<Booking> bookings = bookingRepository.findAll(pageable);
         return BookingMapper.toBookingResponseDtoPage(bookings);
     }
@@ -88,23 +77,17 @@ public class BookingProcessorService {
         return BookingMapper.toBookingResponseDtoPage(bookings);
     }
 
-    public Page<BookingResponseDto> getBookingsByRoomId(Pageable pageable, long roomId) {
-        Page<Booking> bookings = bookingRepository.findAllByRoomId(pageable, roomId);
-        return BookingMapper.toBookingResponseDtoPage(bookings);
+    public Set<BookedDeviceDto> getBookedDevices(long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking with id " + bookingId + " does not exist"));
+        Set<Device> devices = new HashSet<>(booking.getDevices());
+        devices.forEach(System.out::println);
+        return Set.of();
     }
 
-//    public Page<BookingResponseDto> getBookingsByDeviceId(Pageable pageable, long deviceId) {
-//        Page<Booking> bookings = bookingRepository.findAllByDevices(pageable, Device.createWithId(deviceId));
-//        return BookingMapper.toBookingResponseDtoPage(bookings);
-//    }
-
-    public Page<BookingResponseDto> getBookingsByUserId(Pageable pageable, long userId) {
-        Page<Booking> bookings = bookingRepository.findAllByCreatedByUser(pageable, User.createWithId(userId));
-        return BookingMapper.toBookingResponseDtoPage(bookings);
-    }
-
-    public void throwIfNotExistsById(long id) {
-        if(!bookingRepository.existsById(id))
-            throw new ResourceNotFoundException("Booking with id " + id + " does not exist");
+    public BookedRoomDto getBookedRoom(long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking with id " + bookingId + " does not exist"));
+        return BookingMapper.toBookedRoomDto(booking.getRoom());
     }
 }

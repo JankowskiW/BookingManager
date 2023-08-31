@@ -1,50 +1,45 @@
 package pl.wj.bookingmanager.domain.bookingprocessor.booking.model;
 
 import org.springframework.data.domain.Page;
+import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedDeviceDto;
+import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedRoomDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingRequestDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingResponseDto;
 import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
 import pl.wj.bookingmanager.domain.roomprocessor.model.Room;
-import pl.wj.bookingmanager.domain.userprocessor.model.User;
 
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BookingMapper {
 
-    public static Booking toBooking(long id, User updatedByUser, BookingRequestDto bookingRequestDto) {
-        return toBooking(updatedByUser, bookingRequestDto).withId(id);
-    }
-
-    public static Booking toBooking(User createdByUser, BookingRequestDto bookingRequestDto) {
+    public static Booking toBooking(long createdBy, BookingRequestDto bookingRequestDto) {
         return Booking.builder()
                 .title(bookingRequestDto.title())
                 .description(bookingRequestDto.description())
                 .validFrom(bookingRequestDto.validFrom())
                 .validTo(bookingRequestDto.validTo())
-                .room(createRoomIfAnyBooked(bookingRequestDto.roomId()))
-                .devices(createDevicesIfAnyBooked(bookingRequestDto.devicesIds()))
-                .createdByUser(createdByUser)
-                .updatedByUser(createdByUser)
+                .createdBy(createdBy)
+                .updatedBy(createdBy)
                 .build();
     }
 
-    private static Set<Device> createDevicesIfAnyBooked(Optional<Set<Long>> devicesIds) {
-        if (devicesIds.isEmpty()) return new HashSet<>();
-        return devicesIds.get().stream().map(id -> Device.builder().id(id).build()).collect(Collectors.toSet());
-    }
-
-    private static Room createRoomIfAnyBooked(Optional<Long> id) {
-        if (id.isEmpty()) return null;
-        return Room.builder()
-                .id(id.get())
+    public static Booking toBooking(long updatedBy, Booking booking, BookingRequestDto bookingRequestDto) {
+        return Booking.builder()
+                .id(booking.getId())
+                .title(bookingRequestDto.title())
+                .description(bookingRequestDto.description())
+                .validFrom(bookingRequestDto.validFrom())
+                .validTo(bookingRequestDto.validTo())
+                .createdBy(booking.getCreatedBy())
+                .updatedBy(updatedBy)
+                .createdAt(booking.getCreatedAt())
+                .devices(booking.getDevices()) // Added to avoid deleting relations after Booking update
                 .build();
     }
 
     public static BookingResponseDto toBookingResponseDto(Booking booking) {
-        BookingResponseDto.BookingResponseDtoBuilder builder = BookingResponseDto.builder()
+        return BookingResponseDto.builder()
                 .id(booking.getId())
                 .title(booking.getTitle())
                 .description(booking.getDescription())
@@ -52,15 +47,35 @@ public class BookingMapper {
                 .validTo(booking.getValidTo())
                 .createdAt(booking.getCreatedAt())
                 .updatedAt(booking.getUpdatedAt())
-                .createdBy(booking.getCreatedByUser().getId())
-                .updatedBy(booking.getUpdatedByUser().getId());
-        if (booking.getRoom() != null) builder.roomId(Optional.of(booking.getRoom().getId()));
-        if (booking.getDevices() != null)
-            builder.devicesIds(Optional.of(booking.getDevices().stream().map(Device::getId).collect(Collectors.toSet())));
-        return builder.build();
+                .createdBy(booking.getCreatedBy())
+                .updatedBy(booking.getUpdatedBy())
+                .build();
     }
 
     public static Page<BookingResponseDto> toBookingResponseDtoPage(Page<Booking> bookings) {
         return bookings.map(BookingMapper::toBookingResponseDto);
+    }
+
+    public static Set<BookedDeviceDto> toBookedDeviceDtos(Set<Device> devices) {
+        return devices.stream().map(BookingMapper::toBookedDeviceDto).collect(Collectors.toSet());
+    }
+
+    public static BookedDeviceDto toBookedDeviceDto(Device device) {
+        return BookedDeviceDto.builder()
+                .id(device.getId())
+                .name(device.getName())
+                .description(device.getDescription())
+                .available(device.isAvailable())
+                .build();
+    }
+
+    public static BookedRoomDto toBookedRoomDto(Room room) {
+        return BookedRoomDto.builder()
+                .id(room.getId())
+                .name(room.getName())
+                .description(room.getDescription())
+                .location(room.getLocation())
+                .available(room.isAvailable())
+                .build();
     }
 }

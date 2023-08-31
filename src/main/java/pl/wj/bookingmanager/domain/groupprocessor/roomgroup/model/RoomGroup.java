@@ -24,11 +24,12 @@ public class RoomGroup {
     @Column(columnDefinition = "bit default 1", nullable = false)  // boolean default true
     private boolean available;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "group_rooms",
             joinColumns = { @JoinColumn(name = "group_id") },
             inverseJoinColumns = { @JoinColumn(name = "room_id") }
     )
+    @Builder.Default
     private Set<Room> rooms = new HashSet<>();
 }

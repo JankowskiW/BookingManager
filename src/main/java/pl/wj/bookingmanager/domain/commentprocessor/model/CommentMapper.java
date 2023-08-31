@@ -3,7 +3,6 @@ package pl.wj.bookingmanager.domain.commentprocessor.model;
 import pl.wj.bookingmanager.common.CommentObjectType;
 import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentRequestDto;
 import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentResponseDto;
-import pl.wj.bookingmanager.domain.userprocessor.model.User;
 
 public class CommentMapper {
 
@@ -14,16 +13,18 @@ public class CommentMapper {
                 .commentObjectId(comment.getCommentObjectId())
                 .title(comment.getTitle())
                 .body(comment.getBody())
+                .createdAt(comment.getCreatedAt())
+                .createdBy(comment.getCreatedBy())
                 .build();
     }
 
-    public static Comment toComment(User createdByUser, CommentObjectType commentObjectType, CommentRequestDto commentRequestDto) {
+    public static Comment toComment(long createdBy, CommentObjectType commentObjectType, CommentRequestDto commentRequestDto) {
         return Comment.builder()
                 .title(commentRequestDto.title())
                 .body(commentRequestDto.body())
                 .commentObjectId(commentRequestDto.commentObjectId())
                 .commentObjectTypeId(commentObjectType.getId())
-                .createdByUser(createdByUser)
+                .createdBy(createdBy)
                 .build();
     }
 }

@@ -18,7 +18,7 @@ public class CommentProcessorService {
 
     public CommentResponseDto addComment(CommentObjectType commentObjectType, CommentRequestDto commentRequestDto) {
         User createdByUser = securityService.getAuthenticatedUser();
-        Comment comment = CommentMapper.toComment(createdByUser, commentObjectType, commentRequestDto);
+        Comment comment = CommentMapper.toComment(createdByUser.getId(), commentObjectType, commentRequestDto);
         comment = commentRepository.save(comment);
         return CommentMapper.toCommentResponseDto(comment);
     }
