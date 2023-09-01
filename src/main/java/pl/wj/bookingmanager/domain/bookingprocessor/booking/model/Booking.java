@@ -1,10 +1,7 @@
 package pl.wj.bookingmanager.domain.bookingprocessor.booking.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
@@ -16,10 +13,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "bookings")
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
+@Builder
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +27,9 @@ public class Booking {
     @Column(nullable = false)
     private String description;
     @Column(nullable = false)
-    private LocalDateTime validFrom;
+    private LocalDateTime startTime;
     @Column(nullable = false)
-    private LocalDateTime validTo;
+    private LocalDateTime endTime;
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -53,6 +51,7 @@ public class Booking {
     )
     private Set<Device> devices = new HashSet<>();
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,4 +66,6 @@ public class Booking {
     public int hashCode() {
         return (int) (id ^ (id >>> 32));
     }
+
+
 }

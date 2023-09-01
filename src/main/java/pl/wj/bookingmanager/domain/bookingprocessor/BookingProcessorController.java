@@ -55,7 +55,7 @@ public class BookingProcessorController {
 
     @GetMapping("/active")
     public Page<BookingResponseDto> getActiveBookings(@RequestParam(required = false) Integer pageNumber,
-                                                      @RequestParam(required = false) int pageSize,
+                                                      @RequestParam(required = false) Integer pageSize,
                                                       @RequestParam(required = false) Sort.Direction direction,
                                                       @RequestParam(required = false) String sortBy) {
         Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
@@ -64,7 +64,7 @@ public class BookingProcessorController {
 
     @GetMapping("/future")
     public Page<BookingResponseDto> getFutureBookings(@RequestParam(required = false) Integer pageNumber,
-                                                      @RequestParam(required = false) int pageSize,
+                                                      @RequestParam(required = false) Integer pageSize,
                                                       @RequestParam(required = false) Sort.Direction direction,
                                                       @RequestParam(required = false) String sortBy) {
         Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
@@ -73,7 +73,7 @@ public class BookingProcessorController {
 
     @GetMapping("/expired")
     public Page<BookingResponseDto> getExpiredBookings(@RequestParam(required = false) Integer pageNumber,
-                                                       @RequestParam(required = false) int pageSize,
+                                                       @RequestParam(required = false) Integer pageSize,
                                                        @RequestParam(required = false) Sort.Direction direction,
                                                        @RequestParam(required = false) String sortBy) {
         Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);

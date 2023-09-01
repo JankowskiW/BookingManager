@@ -1,6 +1,7 @@
 package pl.wj.bookingmanager.domain.bookingprocessor.booking.model;
 
 import org.springframework.data.domain.Page;
+import pl.wj.bookingmanager.domain.bookingprocessor.BookingValidator;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedDeviceDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedRoomDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingRequestDto;
@@ -8,34 +9,39 @@ import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingRes
 import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
 import pl.wj.bookingmanager.domain.roomprocessor.model.Room;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BookingMapper {
+    // TODO: Change every mapper methods to non static method and avery Mapper to @Component and inject Clock field and Validators
 
     public static Booking toBooking(long createdBy, BookingRequestDto bookingRequestDto) {
+        validateStartTimeAndEndTime(bookingRequestDto.startTime(), bookingRequestDto.endTime());
         return Booking.builder()
                 .title(bookingRequestDto.title())
                 .description(bookingRequestDto.description())
-                .validFrom(bookingRequestDto.validFrom())
-                .validTo(bookingRequestDto.validTo())
                 .createdBy(createdBy)
                 .updatedBy(createdBy)
+                .startTime(bookingRequestDto.startTime())
+                .endTime(bookingRequestDto.endTime())
                 .build();
     }
 
     public static Booking toBooking(long updatedBy, Booking booking, BookingRequestDto bookingRequestDto) {
-        return Booking.builder()
-                .id(booking.getId())
-                .title(bookingRequestDto.title())
-                .description(bookingRequestDto.description())
-                .validFrom(bookingRequestDto.validFrom())
-                .validTo(bookingRequestDto.validTo())
-                .createdBy(booking.getCreatedBy())
-                .updatedBy(updatedBy)
-                .createdAt(booking.getCreatedAt())
-                .devices(booking.getDevices()) // Added to avoid deleting relations after Booking update
-                .build();
+        validateStartTimeAndEndTime(bookingRequestDto.startTime(), bookingRequestDto.endTime());
+        booking.setTitle(bookingRequestDto.title());
+        booking.setDescription(bookingRequestDto.description());
+        booking.setUpdatedBy(updatedBy);
+        booking.setStartTime(bookingRequestDto.startTime());
+        booking.setEndTime(booking.getEndTime());
+        return booking;
+    }
+
+    private static void validateStartTimeAndEndTime(LocalDateTime startTime, LocalDateTime endTime) {
+        BookingValidator.hasInvalidDurationTime(startTime, endTime);
+        BookingValidator.isBeforeCurrentDateTime(startTime);
+        BookingValidator.isBeforeCurrentDateTime(endTime);
     }
 
     public static BookingResponseDto toBookingResponseDto(Booking booking) {
@@ -43,8 +49,8 @@ public class BookingMapper {
                 .id(booking.getId())
                 .title(booking.getTitle())
                 .description(booking.getDescription())
-                .validFrom(booking.getValidFrom())
-                .validTo(booking.getValidTo())
+                .startTime(booking.getStartTime())
+                .endTime(booking.getEndTime())
                 .createdAt(booking.getCreatedAt())
                 .updatedAt(booking.getUpdatedAt())
                 .createdBy(booking.getCreatedBy())

@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    @Query("SELECT b FROM Booking b WHERE b.validFrom <= :now AND b.validTo >= :now")
+    @Query("SELECT b FROM Booking b WHERE b.startTime <= :now AND b.endTime >= :now")
     Page<Booking> findAllActive(Pageable pageable, LocalDateTime now);
 
-    @Query("SELECT b FROM Booking b WHERE b.validFrom > :now")
+    @Query("SELECT b FROM Booking b WHERE b.startTime > :now")
     Page<Booking> findAllFuture(Pageable pageable, LocalDateTime now);
 
-    @Query("SELECT b FROM Booking b WHERE b.validTo < :now")
+    @Query("SELECT b FROM Booking b WHERE b.endTime < :now")
     Page<Booking> findAllExpired(Pageable pageable, LocalDateTime now);
 }

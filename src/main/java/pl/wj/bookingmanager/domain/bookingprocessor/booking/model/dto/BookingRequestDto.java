@@ -9,6 +9,6 @@ import java.time.LocalDateTime;
 public record BookingRequestDto (
         String title,
         String description,
-        LocalDateTime validFrom,
-        LocalDateTime validTo
+        LocalDateTime startTime,
+        LocalDateTime endTime
 ) {}
