@@ -1,18 +1,21 @@
 package pl.wj.bookingmanager.domain.bookingprocessor.booking.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
 import pl.wj.bookingmanager.domain.roomprocessor.model.Room;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "bookings")
-@EqualsAndHashCode
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -48,5 +51,20 @@ public class Booking {
             joinColumns = { @JoinColumn(name = "booking_id", insertable = false, updatable = false) },
             inverseJoinColumns = { @JoinColumn(name = "device_id", insertable = false, updatable = false) }
     )
-    private Set<Device> devices;// = new HashSet<>();
+    private Set<Device> devices = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Booking booking = (Booking) o;
+
+        return id == booking.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
+    }
 }

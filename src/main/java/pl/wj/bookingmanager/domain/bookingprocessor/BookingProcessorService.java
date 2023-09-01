@@ -11,14 +11,12 @@ import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedDevi
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedRoomDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingRequestDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingResponseDto;
-import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
 import pl.wj.bookingmanager.domain.userprocessor.model.User;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
 import pl.wj.bookingmanager.infrastructure.security.SecurityService;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -80,9 +78,8 @@ public class BookingProcessorService {
     public Set<BookedDeviceDto> getBookedDevices(long bookingId) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking with id " + bookingId + " does not exist"));
-        Set<Device> devices = new HashSet<>(booking.getDevices());
-        devices.forEach(System.out::println);
-        return Set.of();
+        Set<BookedDeviceDto> bookedDeviceDtos = BookingMapper.toBookedDeviceDtos(booking.getDevices());
+        return bookedDeviceDtos;
     }
 
     public BookedRoomDto getBookedRoom(long bookingId) {

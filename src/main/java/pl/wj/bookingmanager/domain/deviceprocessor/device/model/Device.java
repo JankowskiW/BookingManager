@@ -1,14 +1,18 @@
 package pl.wj.bookingmanager.domain.deviceprocessor.device.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.Booking;
+import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.DeviceGroup;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "devices")
-@EqualsAndHashCode
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,8 +28,23 @@ public class Device {
     @Column(columnDefinition = "bit default 1", nullable = false)  // boolean default true
     private boolean available;
 
-//    @ManyToMany(mappedBy = "devices", fetch = FetchType.LAZY)
-//    private Set<DeviceGroup> groups = new HashSet<>();
     @ManyToMany(mappedBy = "devices")
-    private Set<Booking> bookings;// = new HashSet<>();
+    private Set<DeviceGroup> groups = new HashSet<>();
+    @ManyToMany(mappedBy = "devices")
+    private Set<Booking> bookings = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Device device = (Device) o;
+
+        return id == device.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
+    }
 }
