@@ -1,7 +1,6 @@
 package pl.wj.bookingmanager.domain.bookingprocessor.booking.model;
 
 import org.springframework.data.domain.Page;
-import pl.wj.bookingmanager.domain.bookingprocessor.BookingValidator;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedDeviceDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedRoomDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingRequestDto;
@@ -9,7 +8,6 @@ import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingRes
 import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
 import pl.wj.bookingmanager.domain.roomprocessor.model.Room;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,7 +15,6 @@ public class BookingMapper {
     // TODO: Change every mapper methods to non static method and avery Mapper to @Component and inject Clock field and Validators
 
     public static Booking toBooking(long createdBy, BookingRequestDto bookingRequestDto) {
-        validateStartTimeAndEndTime(bookingRequestDto.startTime(), bookingRequestDto.endTime());
         return Booking.builder()
                 .title(bookingRequestDto.title())
                 .description(bookingRequestDto.description())
@@ -29,19 +26,12 @@ public class BookingMapper {
     }
 
     public static Booking toBooking(long updatedBy, Booking booking, BookingRequestDto bookingRequestDto) {
-        validateStartTimeAndEndTime(bookingRequestDto.startTime(), bookingRequestDto.endTime());
         booking.setTitle(bookingRequestDto.title());
         booking.setDescription(bookingRequestDto.description());
         booking.setUpdatedBy(updatedBy);
         booking.setStartTime(bookingRequestDto.startTime());
         booking.setEndTime(booking.getEndTime());
         return booking;
-    }
-
-    private static void validateStartTimeAndEndTime(LocalDateTime startTime, LocalDateTime endTime) {
-        BookingValidator.hasInvalidDurationTime(startTime, endTime);
-        BookingValidator.isBeforeCurrentDateTime(startTime);
-        BookingValidator.isBeforeCurrentDateTime(endTime);
     }
 
     public static BookingResponseDto toBookingResponseDto(Booking booking) {

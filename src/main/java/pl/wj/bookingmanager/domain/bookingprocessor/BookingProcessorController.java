@@ -1,5 +1,6 @@
 package pl.wj.bookingmanager.domain.bookingprocessor;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +23,7 @@ public class BookingProcessorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BookingResponseDto addBooking(@RequestBody BookingRequestDto bookingRequestDto) {
+    public BookingResponseDto addBooking(@RequestBody @Valid BookingRequestDto bookingRequestDto) {
         return bookingProcessorService.addBooking(bookingRequestDto);
     }
 
