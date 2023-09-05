@@ -43,6 +43,7 @@ public class BookingProcessorService {
     }
 
     public void deleteBooking(long id) {
+        if(!bookingRepository.existsById(id)) throw new ResourceNotFoundException("Booking with id " + id + " does not exist");
         bookingRepository.deleteById(id);
     }
 
@@ -78,8 +79,7 @@ public class BookingProcessorService {
     public Set<BookedDeviceDto> getBookedDevices(long bookingId) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking with id " + bookingId + " does not exist"));
-        Set<BookedDeviceDto> bookedDeviceDtos = BookingMapper.toBookedDeviceDtos(booking.getDevices());
-        return bookedDeviceDtos;
+        return BookingMapper.toBookedDeviceDtos(booking.getDevices());
     }
 
     public BookedRoomDto getBookedRoom(long bookingId) {

@@ -30,7 +30,7 @@ public class BookingProcessorController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public BookingResponseDto updateBooking(@PathVariable long id,
-                                            @RequestBody BookingRequestDto bookingRequestDto) {
+                                            @RequestBody @Valid BookingRequestDto bookingRequestDto) {
         return bookingProcessorService.updateBooking(id, bookingRequestDto);
     }
 

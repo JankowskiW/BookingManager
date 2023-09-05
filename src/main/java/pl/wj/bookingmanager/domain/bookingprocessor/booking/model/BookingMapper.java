@@ -12,9 +12,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BookingMapper {
-    // TODO: Change every mapper methods to non static method and avery Mapper to @Component and inject Clock field and Validators
-
     public static Booking toBooking(long createdBy, BookingRequestDto bookingRequestDto) {
+        if (bookingRequestDto == null) return null;
         return Booking.builder()
                 .title(bookingRequestDto.title())
                 .description(bookingRequestDto.description())
@@ -26,6 +25,7 @@ public class BookingMapper {
     }
 
     public static Booking toBooking(long updatedBy, Booking booking, BookingRequestDto bookingRequestDto) {
+        if (booking == null || bookingRequestDto == null) return null;
         booking.setTitle(bookingRequestDto.title());
         booking.setDescription(bookingRequestDto.description());
         booking.setUpdatedBy(updatedBy);
@@ -35,6 +35,7 @@ public class BookingMapper {
     }
 
     public static BookingResponseDto toBookingResponseDto(Booking booking) {
+        if (booking == null) return null;
         return BookingResponseDto.builder()
                 .id(booking.getId())
                 .title(booking.getTitle())
@@ -49,14 +50,17 @@ public class BookingMapper {
     }
 
     public static Page<BookingResponseDto> toBookingResponseDtoPage(Page<Booking> bookings) {
+        if (bookings == null) return null;
         return bookings.map(BookingMapper::toBookingResponseDto);
     }
 
     public static Set<BookedDeviceDto> toBookedDeviceDtos(Set<Device> devices) {
+        if (devices == null) return null;
         return devices.stream().map(BookingMapper::toBookedDeviceDto).collect(Collectors.toSet());
     }
 
     public static BookedDeviceDto toBookedDeviceDto(Device device) {
+        if (device == null) return null;
         return BookedDeviceDto.builder()
                 .id(device.getId())
                 .name(device.getName())
@@ -66,6 +70,7 @@ public class BookingMapper {
     }
 
     public static BookedRoomDto toBookedRoomDto(Room room) {
+        if (room == null) return null;
         return BookedRoomDto.builder()
                 .id(room.getId())
                 .name(room.getName())

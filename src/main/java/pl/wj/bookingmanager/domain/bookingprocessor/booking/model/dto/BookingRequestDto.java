@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
         firstField = "startTime",
         secondField = "endTime",
         minimumMinutesDuration = 10,
-        message = "Start time has to be before the end time"
+        message = "Start time has to be at least 10 minutes before the end time"
 )
 public record BookingRequestDto (
         @NotBlank
