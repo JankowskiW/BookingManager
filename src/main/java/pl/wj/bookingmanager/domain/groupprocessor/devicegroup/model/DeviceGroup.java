@@ -1,7 +1,10 @@
 package pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
 
 import java.util.HashSet;
@@ -12,7 +15,6 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Getter
 public class DeviceGroup {
     @Id

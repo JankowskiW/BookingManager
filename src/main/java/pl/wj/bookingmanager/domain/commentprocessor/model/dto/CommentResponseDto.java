@@ -12,5 +12,6 @@ public record CommentResponseDto(
         String title,
         String body,
         long createdBy,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        String createdByUsername
 ) { }

@@ -1,7 +1,10 @@
 package pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import pl.wj.bookingmanager.domain.roomprocessor.model.Room;
 
 import java.util.HashSet;
@@ -11,7 +14,6 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Getter
 public class RoomGroup {
     @Id

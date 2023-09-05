@@ -100,4 +100,10 @@ public class BookingProcessorService {
         return commentProcessorService.addComment(
                 id, createdByUser.getId(), CommentObjectType.BOOKING, commentRequestDto);
     }
+
+    public Set<CommentResponseDto> getComments(long bookingId) {
+        if(!bookingRepository.existsById(bookingId))
+            throw new ResourceNotFoundException("Booking with id " + bookingId + " does not exist");
+        return commentProcessorService.getCommentsByObjectIdAndObjectType(bookingId, CommentObjectType.BOOKING);
+    }
 }

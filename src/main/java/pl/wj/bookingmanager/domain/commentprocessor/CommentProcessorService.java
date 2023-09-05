@@ -8,6 +8,8 @@ import pl.wj.bookingmanager.domain.commentprocessor.model.CommentMapper;
 import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentRequestDto;
 import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentResponseDto;
 
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class CommentProcessorService {
@@ -20,5 +22,10 @@ public class CommentProcessorService {
         Comment comment = CommentMapper.toComment(commentObjectId, createdByUserId, commentObjectType, commentRequestDto);
         comment = commentRepository.save(comment);
         return CommentMapper.toCommentResponseDto(comment);
+    }
+
+    public Set<CommentResponseDto> getCommentsByObjectIdAndObjectType(long id, CommentObjectType booking) {
+        Set<Comment> comments = commentRepository.findAllByCommentObjectIdAndCommentObjectTypeId(id, booking.getId());
+        return CommentMapper.toCommentResponseDtos(comments);
     }
 }

@@ -98,4 +98,10 @@ public class BookingProcessorController {
     public CommentResponseDto addComment(@PathVariable long id, @RequestBody @Valid CommentRequestDto commentRequestDto) {
         return bookingProcessorService.addComment(id, commentRequestDto);
     }
+
+    @GetMapping("/{id}/comments")
+    @ResponseStatus(HttpStatus.OK)
+    public Set<CommentResponseDto> getComments(@PathVariable long id) {
+        return bookingProcessorService.getComments(id);
+    }
 }
