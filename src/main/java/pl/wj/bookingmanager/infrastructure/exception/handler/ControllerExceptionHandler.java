@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pl.wj.bookingmanager.infrastructure.exception.body.ExceptionBody;
 import pl.wj.bookingmanager.infrastructure.exception.definition.BadRequestException;
+import pl.wj.bookingmanager.infrastructure.exception.definition.MapperException;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceAlreadyExistsException;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
 
@@ -39,6 +40,12 @@ public class ControllerExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ExceptionBody handleBadCredentialsException(BadCredentialsException e) {
         return handleException(e.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(MapperException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ExceptionBody handleMapperException(MapperException e) {
+        return handleException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private ExceptionBody handleException(String message, HttpStatus httpStatus) {

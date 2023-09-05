@@ -44,7 +44,7 @@ public class DeviceProcessorController {
     }
 
     @GetMapping("/available")
-    public Page<DeviceResponseDto> getAllDevices(@RequestParam(required = false) Integer pageNumber,
+    public Page<DeviceResponseDto> getAvailableDevices(@RequestParam(required = false) Integer pageNumber,
                                                  @RequestParam(required = false) Integer pageSize,
                                                  @RequestParam(required = false) Sort.Direction direction,
                                                  @RequestParam(required = false) String sortBy) {
@@ -53,7 +53,7 @@ public class DeviceProcessorController {
     }
 
     @GetMapping("/unavailable")
-    public Page<DeviceResponseDto> getAllDevices(@RequestParam(required = false) Integer pageNumber,
+    public Page<DeviceResponseDto> getUnavailableDevices(@RequestParam(required = false) Integer pageNumber,
                                                  @RequestParam(required = false) Integer pageSize,
                                                  @RequestParam(required = false) Sort.Direction direction,
                                                  @RequestParam(required = false) String sortBy) {
