@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pl.wj.bookingmanager.common.CommentObjectType;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.BookingRepository;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.Booking;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.BookingMapper;
@@ -11,6 +12,9 @@ import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedDevi
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedRoomDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingRequestDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingResponseDto;
+import pl.wj.bookingmanager.domain.commentprocessor.CommentProcessorService;
+import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentRequestDto;
+import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentResponseDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.User;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
 import pl.wj.bookingmanager.infrastructure.security.SecurityService;
@@ -23,6 +27,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class BookingProcessorService {
     private final BookingRepository bookingRepository;
+    private final CommentProcessorService commentProcessorService;
     private final SecurityService securityService;
     private final Clock clock;
 
@@ -86,5 +91,13 @@ public class BookingProcessorService {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking with id " + bookingId + " does not exist"));
         return BookingMapper.toBookedRoomDto(booking.getRoom());
+    }
+
+    public CommentResponseDto addComment(long id, CommentRequestDto commentRequestDto) {
+        if(!bookingRepository.existsById(id))
+            throw new ResourceNotFoundException("Booking with id " + id + " does not exist");
+        User createdByUser = securityService.getAuthenticatedUser();
+        return commentProcessorService.addComment(
+                id, createdByUser.getId(), CommentObjectType.BOOKING, commentRequestDto);
     }
 }

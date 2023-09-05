@@ -18,11 +18,11 @@ public class CommentMapper {
                 .build();
     }
 
-    public static Comment toComment(long createdBy, CommentObjectType commentObjectType, CommentRequestDto commentRequestDto) {
+    public static Comment toComment(long commentObjectId, long createdBy, CommentObjectType commentObjectType, CommentRequestDto commentRequestDto) {
         return Comment.builder()
                 .title(commentRequestDto.title())
                 .body(commentRequestDto.body())
-                .commentObjectId(commentRequestDto.commentObjectId())
+                .commentObjectId(commentObjectId)
                 .commentObjectTypeId(commentObjectType.getId())
                 .createdBy(createdBy)
                 .build();

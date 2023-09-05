@@ -12,6 +12,8 @@ import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedDevi
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedRoomDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingRequestDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingResponseDto;
+import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentRequestDto;
+import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentResponseDto;
 
 import java.util.Set;
 
@@ -89,5 +91,11 @@ public class BookingProcessorController {
     @GetMapping("/{id}/rooms")
     public BookedRoomDto getBookedRoom(@PathVariable long id) {
         return bookingProcessorService.getBookedRoom(id);
+    }
+
+    @PostMapping("/{id}/comments")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CommentResponseDto addComment(@PathVariable long id, @RequestBody @Valid CommentRequestDto commentRequestDto) {
+        return bookingProcessorService.addComment(id, commentRequestDto);
     }
 }
