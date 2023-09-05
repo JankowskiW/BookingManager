@@ -4,6 +4,7 @@ import pl.wj.bookingmanager.common.CommentObjectType;
 import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentRequestDto;
 import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentResponseDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.User;
+import pl.wj.bookingmanager.infrastructure.exception.definition.MapperException;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -11,7 +12,7 @@ import java.util.stream.Collectors;
 public class CommentMapper {
 
     public static CommentResponseDto toCommentResponseDto(Comment comment) {
-        if (comment == null) return null;
+        if (comment == null) throw new MapperException("Comment is null");
         return CommentResponseDto.builder()
                 .id(comment.getId())
                 .commentObjectTypeId(comment.getCommentObjectTypeId())
@@ -24,7 +25,8 @@ public class CommentMapper {
                 .build();
     }
     public static Comment toComment(long commentObjectId, long createdBy, CommentObjectType commentObjectType, CommentRequestDto commentRequestDto) {
-        if (commentObjectType == null || commentRequestDto == null) return null;
+        if (commentObjectType == null) throw new MapperException("CommentObjectType is null");
+        if (commentRequestDto == null) throw new MapperException("CommentRequestDto is null");
         return Comment.builder()
                 .title(commentRequestDto.title())
                 .body(commentRequestDto.body())
@@ -35,7 +37,7 @@ public class CommentMapper {
     }
 
     public static Set<CommentResponseDto> toCommentResponseDtos(Set<Comment> comments) {
-        if (comments == null) return null;
+        if (comments == null) throw new MapperException("Set<Comment> is null");
         return comments.stream().map(CommentMapper::toCommentResponseDto).collect(Collectors.toSet());
     }
 }

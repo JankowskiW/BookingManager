@@ -35,6 +35,7 @@ public class DeviceMapper {
     }
 
     public static Page<DeviceResponseDto> toDeviceResponseDtoPage(Page<Device> devices) {
+        if (devices == null) throw new MapperException("Page<Device> is null");
         return devices.map(DeviceMapper::toDeviceResponseDto);
     }
 }

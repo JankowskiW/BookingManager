@@ -14,6 +14,7 @@ import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.RoomGroup;
 import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.RoomGroupMapper;
 import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupResponseDto;
 import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupRequestDto;
+import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +30,8 @@ public class GroupProcessorService {
     }
 
     public DeviceGroupResponseDto updateDeviceGroup(long id, DeviceGroupRequestDto deviceGroupRequestDto) {
+        if (!deviceGroupRepository.existsById(id))
+            throw new ResourceNotFoundException("Device group with id " + id + " does not exist");
         DeviceGroup deviceGroup = DeviceGroupMapper.toDeviceGroup(id, deviceGroupRequestDto);
         deviceGroup = deviceGroupRepository.save(deviceGroup);
         return DeviceGroupMapper.toDeviceGroupResponseDto(deviceGroup);
@@ -54,6 +57,8 @@ public class GroupProcessorService {
     }
 
     public RoomGroupResponseDto updateRoomGroup(long id, RoomGroupRequestDto roomGroupRequestDto) {
+        if (!roomGroupRepository.existsById(id))
+            throw new ResourceNotFoundException("Room group with id " + id + " does not exist");
         RoomGroup roomGroup = RoomGroupMapper.toRoomGroup(id, roomGroupRequestDto);
         roomGroup = roomGroupRepository.save(roomGroup);
         return RoomGroupMapper.toRoomGroupResponseDto(roomGroup);
