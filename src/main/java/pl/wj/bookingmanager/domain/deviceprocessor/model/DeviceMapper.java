@@ -15,14 +15,13 @@ public class DeviceMapper {
                 .build();
     }
 
-    public static Device toDevice(long id, DeviceRequestDto deviceRequestDto) {
+    public static Device toDevice(Device device, DeviceRequestDto deviceRequestDto) {
+        if (device == null) throw new MapperException("Device is null");
         if (deviceRequestDto == null) throw new MapperException("DeviceRequestDto is null");
-        return Device.builder()
-                .id(id)
-                .name(deviceRequestDto.name())
-                .description(deviceRequestDto.description())
-                .available(deviceRequestDto.available())
-                .build();
+        device.setName(device.getName());
+        device.setDescription(device.getDescription());
+        device.setAvailable(deviceRequestDto.available());
+        return device;
     }
 
     public static DeviceResponseDto toDeviceResponseDto(Device device) {

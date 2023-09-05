@@ -22,7 +22,9 @@ public class DeviceProcessorService {
     }
 
     public DeviceResponseDto updateDevice(long id, DeviceRequestDto deviceRequestDto) {
-        Device device = DeviceMapper.toDevice(id, deviceRequestDto);
+        Device device = deviceRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Device with id " + id + " does not exist"));
+        device = DeviceMapper.toDevice(device, deviceRequestDto);
         device = deviceRepository.save(device);
         return DeviceMapper.toDeviceResponseDto(device);
     }

@@ -1,10 +1,7 @@
 package pl.wj.bookingmanager.domain.deviceprocessor.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pl.wj.bookingmanager.domain.bookingprocessor.model.Booking;
 import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.DeviceGroup;
 
@@ -17,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class Device {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
