@@ -1,9 +1,8 @@
 package pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model;
 
 import org.springframework.data.domain.Page;
-import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto.DeviceGroupRequestDto;
 import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto.DeviceGroupResponseDto;
-import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto.DeviceGroupUpdateRequestDto;
+import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto.DeviceGroupRequestDto;
 
 public class DeviceGroupMapper {
     public static DeviceGroup toDeviceGroup(DeviceGroupRequestDto deviceGroupRequestDto) {
@@ -21,11 +20,11 @@ public class DeviceGroupMapper {
                 .build();
     }
 
-    public static DeviceGroup toDeviceGroup(long id, DeviceGroupUpdateRequestDto deviceGroupUpdateRequestDto) {
+    public static DeviceGroup toDeviceGroup(long id, DeviceGroupRequestDto deviceGroupRequestDto) {
         return DeviceGroup.builder()
                 .id(id)
-                .name(deviceGroupUpdateRequestDto.name())
-                .description(deviceGroupUpdateRequestDto.description())
+                .name(deviceGroupRequestDto.name())
+                .description(deviceGroupRequestDto.description())
                 .build();
     }
 

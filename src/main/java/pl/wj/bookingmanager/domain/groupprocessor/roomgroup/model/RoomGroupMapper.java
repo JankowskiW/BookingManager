@@ -1,9 +1,8 @@
 package pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model;
 
 import org.springframework.data.domain.Page;
-import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupRequestDto;
 import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupResponseDto;
-import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupUpdateRequestDto;
+import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupRequestDto;
 
 public class RoomGroupMapper {
     public static RoomGroup toRoomGroup(RoomGroupRequestDto roomGroupRequestDto) {
@@ -21,11 +20,11 @@ public class RoomGroupMapper {
                 .build();
     }
 
-    public static RoomGroup toRoomGroup(long id, RoomGroupUpdateRequestDto roomGroupUpdateRequestDto) {
+    public static RoomGroup toRoomGroup(long id, RoomGroupRequestDto roomGroupRequestDto) {
         return RoomGroup.builder()
                 .id(id)
-                .name(roomGroupUpdateRequestDto.name())
-                .description(roomGroupUpdateRequestDto.description())
+                .name(roomGroupRequestDto.name())
+                .description(roomGroupRequestDto.description())
                 .build();
     }
 

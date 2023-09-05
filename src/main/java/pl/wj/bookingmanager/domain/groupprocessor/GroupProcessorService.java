@@ -7,15 +7,13 @@ import org.springframework.stereotype.Service;
 import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.DeviceGroupRepository;
 import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.DeviceGroup;
 import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.DeviceGroupMapper;
-import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto.DeviceGroupRequestDto;
 import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto.DeviceGroupResponseDto;
-import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto.DeviceGroupUpdateRequestDto;
+import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto.DeviceGroupRequestDto;
 import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.RoomGroupRepository;
 import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.RoomGroup;
 import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.RoomGroupMapper;
-import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupRequestDto;
 import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupResponseDto;
-import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupUpdateRequestDto;
+import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupRequestDto;
 
 @Service
 @RequiredArgsConstructor
@@ -30,8 +28,8 @@ public class GroupProcessorService {
         return DeviceGroupMapper.toDeviceGroupResponseDto(deviceGroup);
     }
 
-    public DeviceGroupResponseDto updateDeviceGroup(long id, DeviceGroupUpdateRequestDto deviceGroupUpdateRequestDto) {
-        DeviceGroup deviceGroup = DeviceGroupMapper.toDeviceGroup(id, deviceGroupUpdateRequestDto);
+    public DeviceGroupResponseDto updateDeviceGroup(long id, DeviceGroupRequestDto deviceGroupRequestDto) {
+        DeviceGroup deviceGroup = DeviceGroupMapper.toDeviceGroup(id, deviceGroupRequestDto);
         deviceGroup = deviceGroupRepository.save(deviceGroup);
         return DeviceGroupMapper.toDeviceGroupResponseDto(deviceGroup);
     }
@@ -55,8 +53,8 @@ public class GroupProcessorService {
         return RoomGroupMapper.toRoomGroupResponseDto(roomGroup);
     }
 
-    public RoomGroupResponseDto updateRoomGroup(long id, RoomGroupUpdateRequestDto roomGroupUpdateRequestDto) {
-        RoomGroup roomGroup = RoomGroupMapper.toRoomGroup(id, roomGroupUpdateRequestDto);
+    public RoomGroupResponseDto updateRoomGroup(long id, RoomGroupRequestDto roomGroupRequestDto) {
+        RoomGroup roomGroup = RoomGroupMapper.toRoomGroup(id, roomGroupRequestDto);
         roomGroup = roomGroupRepository.save(roomGroup);
         return RoomGroupMapper.toRoomGroupResponseDto(roomGroup);
     }

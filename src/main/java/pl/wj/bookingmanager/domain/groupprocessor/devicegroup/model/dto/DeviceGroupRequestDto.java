@@ -1,6 +1,10 @@
 package pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto;
 
-public record DeviceGroupRequestDto (
+import lombok.Builder;
+
+@Builder
+public record DeviceGroupRequestDto(
         String name,
-        String description
+        String description,
+        boolean available
 ) {}

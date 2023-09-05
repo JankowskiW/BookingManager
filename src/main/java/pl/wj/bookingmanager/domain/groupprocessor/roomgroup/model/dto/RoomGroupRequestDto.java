@@ -1,7 +1,10 @@
 package pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto;
 
+import lombok.Builder;
 
-public record RoomGroupRequestDto (
+@Builder
+public record RoomGroupRequestDto(
         String name,
-        String description
+        String description,
+        boolean available
 ) {}
