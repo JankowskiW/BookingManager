@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
+import pl.wj.bookingmanager.domain.deviceprocessor.model.Device;
 
 import java.util.HashSet;
 import java.util.Set;

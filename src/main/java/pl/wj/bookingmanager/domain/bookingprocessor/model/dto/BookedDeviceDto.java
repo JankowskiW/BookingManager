@@ -1,4 +1,4 @@
-package pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto;
+package pl.wj.bookingmanager.domain.bookingprocessor.model.dto;
 
 import lombok.Builder;
 

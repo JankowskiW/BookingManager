@@ -1,10 +1,10 @@
-package pl.wj.bookingmanager.domain.bookingprocessor.booking.model;
+package pl.wj.bookingmanager.domain.bookingprocessor.model;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
+import pl.wj.bookingmanager.domain.deviceprocessor.model.Device;
 import pl.wj.bookingmanager.domain.roomprocessor.model.Room;
 
 import java.time.LocalDateTime;

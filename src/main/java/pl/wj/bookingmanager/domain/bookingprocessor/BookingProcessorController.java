@@ -8,10 +8,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.wj.bookingmanager.common.PaginationHelper;
-import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedDeviceDto;
-import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedRoomDto;
-import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingRequestDto;
-import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingResponseDto;
+import pl.wj.bookingmanager.domain.bookingprocessor.model.dto.BookedDeviceDto;
+import pl.wj.bookingmanager.domain.bookingprocessor.model.dto.BookedRoomDto;
+import pl.wj.bookingmanager.domain.bookingprocessor.model.dto.BookingRequestDto;
+import pl.wj.bookingmanager.domain.bookingprocessor.model.dto.BookingResponseDto;
 import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentRequestDto;
 import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentResponseDto;
 

@@ -2,7 +2,7 @@ package pl.wj.bookingmanager.domain.roomprocessor;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.wj.bookingmanager.domain.bookingprocessor.booking.BookingRepository;
+import pl.wj.bookingmanager.domain.bookingprocessor.BookingRepository;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
 
 @Service

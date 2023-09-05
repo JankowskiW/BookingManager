@@ -1,11 +1,11 @@
-package pl.wj.bookingmanager.domain.bookingprocessor.booking.model;
+package pl.wj.bookingmanager.domain.bookingprocessor.model;
 
 import org.springframework.data.domain.Page;
-import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedDeviceDto;
-import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookedRoomDto;
-import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingRequestDto;
-import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto.BookingResponseDto;
-import pl.wj.bookingmanager.domain.deviceprocessor.device.model.Device;
+import pl.wj.bookingmanager.domain.bookingprocessor.model.dto.BookedDeviceDto;
+import pl.wj.bookingmanager.domain.bookingprocessor.model.dto.BookedRoomDto;
+import pl.wj.bookingmanager.domain.bookingprocessor.model.dto.BookingRequestDto;
+import pl.wj.bookingmanager.domain.bookingprocessor.model.dto.BookingResponseDto;
+import pl.wj.bookingmanager.domain.deviceprocessor.model.Device;
 import pl.wj.bookingmanager.domain.roomprocessor.model.Room;
 
 import java.util.Set;

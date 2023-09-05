@@ -1,11 +1,11 @@
-package pl.wj.bookingmanager.domain.deviceprocessor.device.model;
+package pl.wj.bookingmanager.domain.deviceprocessor.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pl.wj.bookingmanager.domain.bookingprocessor.booking.model.Booking;
+import pl.wj.bookingmanager.domain.bookingprocessor.model.Booking;
 import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.DeviceGroup;
 
 import java.util.HashSet;
