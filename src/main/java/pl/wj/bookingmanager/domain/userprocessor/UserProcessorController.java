@@ -4,11 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import pl.wj.bookingmanager.common.PaginationHelper;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserLoginRequestDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserRegisterRequestDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserResponseDto;
@@ -24,26 +24,29 @@ public class UserProcessorController {
     private final SecurityService securityService;
 
     @GetMapping
-    public Page<UserResponseDto> getUsers(@RequestParam int pageNumber, @RequestParam int pageSize,
-                               @RequestParam Sort.Direction direction, @RequestParam String sortBy) {
-        // page number should be decremented, because PageRequest starts counting pages from 0, not from 1
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, sortBy);
+    public Page<UserResponseDto> getUsers(@RequestParam int pageNumber,
+                                          @RequestParam int pageSize,
+                                          @RequestParam Sort.Direction direction,
+                                          @RequestParam String sortBy) {
+        Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
         return userProcessorService.getUsers(pageable);
     }
 
     @GetMapping("/archived")
-    public Page<UserResponseDto> getArchivedUsers(@RequestParam int pageNumber, @RequestParam int pageSize,
-                               @RequestParam Sort.Direction direction, @RequestParam String sortBy) {
-        // page number should be decremented, because PageRequest starts counting pages from 0, not from 1
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, sortBy);
+    public Page<UserResponseDto> getArchivedUsers(@RequestParam int pageNumber,
+                                                  @RequestParam int pageSize,
+                                                  @RequestParam Sort.Direction direction,
+                                                  @RequestParam String sortBy) {
+        Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
         return userProcessorService.getArchivedUsers(pageable);
     }
 
     @GetMapping("/active")
-    public Page<UserResponseDto> getActiveUsers(@RequestParam int pageNumber, @RequestParam int pageSize,
-                                       @RequestParam Sort.Direction direction, @RequestParam String sortBy) {
-        // page number should be decremented, because PageRequest starts counting pages from 0, not from 1
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, direction, sortBy);
+    public Page<UserResponseDto> getActiveUsers(@RequestParam int pageNumber,
+                                                @RequestParam int pageSize,
+                                                @RequestParam Sort.Direction direction,
+                                                @RequestParam String sortBy) {
+        Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
         return userProcessorService.getActiveUsers(pageable);
     }
 
