@@ -3,6 +3,7 @@ package pl.wj.bookingmanager.domain.bookingprocessor.booking.model.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import pl.wj.bookingmanager.infrastructure.validation.constraint.NotInThePast;
 import pl.wj.bookingmanager.infrastructure.validation.constraint.OneTimeBeforeAnother;
 
 import java.time.LocalDateTime;
@@ -13,15 +14,17 @@ import java.time.LocalDateTime;
         firstField = "startTime",
         secondField = "endTime",
         minimumMinutesDuration = 10,
-        message = "Start time has to be at least 10 minutes before the end time"
+        message = "{booking.duration.longer-than}"
 )
 public record BookingRequestDto (
-        @NotBlank
+        @NotBlank(message = "{booking.title.not-blank")
         String title,
-        @NotNull
+        @NotNull(message = "{booking.description.not-null")
         String description,
-        @NotNull
+        @NotNull(message = "{booking.start-time.not-null")
+        @NotInThePast(message = "{booking.start-time.not-in-the-past}")
         LocalDateTime startTime,
-        @NotNull
+        @NotNull(message = "{booking.end-time.not-null")
+        @NotInThePast(message = "{booking.end-time.not-in-the-past}")
         LocalDateTime endTime
 ) {}

@@ -1,5 +1,6 @@
 package pl.wj.bookingmanager.domain.commentprocessor;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,14 +16,14 @@ public class CommentProcessorController {
 
     @PostMapping("/bookings")
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentResponseDto addBookingComment(@RequestBody CommentRequestDto commentRequestDto) {
+    public CommentResponseDto addBookingComment(@RequestBody @Valid CommentRequestDto commentRequestDto) {
         return commentProcessorService.addComment(CommentObjectType.BOOKING, commentRequestDto);
     }
 
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentResponseDto addUserComment(@RequestBody CommentRequestDto commentRequestDto) {
+    public CommentResponseDto addUserComment(@RequestBody @Valid CommentRequestDto commentRequestDto) {
         return commentProcessorService.addComment(CommentObjectType.USER, commentRequestDto);
     }
 }
