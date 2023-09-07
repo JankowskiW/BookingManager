@@ -13,6 +13,7 @@ import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserRegisterRequestDt
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserResponseDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserSecurityDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserUpdateRequestDto;
+import pl.wj.bookingmanager.infrastructure.exception.ExceptionMessage;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceAlreadyExistsException;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
 
@@ -27,7 +28,7 @@ public class UserProcessorService {
 
     public UserSecurityDto getUserSecurityDtoByUsername(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new ResourceNotFoundException("User with username " + username + " does not exist"));
+                () -> new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("User", "username", username)));
         return UserMapper.toUserSecurityDto(UserMapper.toCustomUserDetails(user));
     }
 
@@ -50,6 +51,8 @@ public class UserProcessorService {
     }
 
     public UserResponseDto updateUser(long id, UserUpdateRequestDto userUpdateRequestDto) {
+        if (!userRepository.existsById(id))
+            throw new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("User", id));
         throwIfUpdatedUserExists(id, userUpdateRequestDto);
         String encodedPassword = passwordEncoder.encode(userUpdateRequestDto.password());
         User user = UserMapper.toUser(id, userUpdateRequestDto, encodedPassword);
@@ -59,15 +62,19 @@ public class UserProcessorService {
 
     private void throwIfNewUserExists(UserRegisterRequestDto userRegisterRequestDto) {
         if (userRepository.existsByUsername(userRegisterRequestDto.username()))
-            throw new ResourceAlreadyExistsException("User with username " + userRegisterRequestDto.username() + " already exists");
+            throw new ResourceAlreadyExistsException(ExceptionMessage.getResourceAlreadyExistsMessage(
+                    "User","username",userRegisterRequestDto.username()));
         if (userRepository.existsByEmailAddress(userRegisterRequestDto.emailAddress()))
-            throw new ResourceAlreadyExistsException("User with email address " + userRegisterRequestDto.emailAddress() + " already exists");
+            throw new ResourceAlreadyExistsException(ExceptionMessage.getResourceAlreadyExistsMessage(
+                    "User","emailAddress",userRegisterRequestDto.emailAddress()));
     }
 
     private void throwIfUpdatedUserExists(long id, UserUpdateRequestDto userUpdateRequestDto) {
         if (userRepository.existsByUsernameAndIdIsNot(userUpdateRequestDto.username(), id))
-            throw new ResourceAlreadyExistsException("User with username " + userUpdateRequestDto.username() + " already exists");
+            throw new ResourceAlreadyExistsException(ExceptionMessage.getResourceAlreadyExistsMessage(
+                    "User","username",userUpdateRequestDto.username()));
         if (userRepository.existsByEmailAddressAndIdIsNot(userUpdateRequestDto.emailAddress(), id))
-            throw new ResourceAlreadyExistsException("User with email address " + userUpdateRequestDto.emailAddress() + " already exists");
+            throw new ResourceAlreadyExistsException(ExceptionMessage.getResourceAlreadyExistsMessage(
+                    "User","emailAddress",userUpdateRequestDto.emailAddress()));
     }
 }

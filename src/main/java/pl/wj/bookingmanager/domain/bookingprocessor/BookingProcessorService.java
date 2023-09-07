@@ -17,6 +17,7 @@ import pl.wj.bookingmanager.domain.commentprocessor.CommentProcessorService;
 import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentRequestDto;
 import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentResponseDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.User;
+import pl.wj.bookingmanager.infrastructure.exception.ExceptionMessage;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
 import pl.wj.bookingmanager.infrastructure.security.SecurityService;
 
@@ -42,7 +43,7 @@ public class BookingProcessorService {
 
     public BookingResponseDto updateBooking(long id, BookingRequestDto bookingRequestDto) {
         Booking booking = bookingRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Booking with id " + id + " does not exist"));
+                () -> new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("Booking", id)));
         User updatedByUser = securityService.getAuthenticatedUser();
         booking = BookingMapper.toBooking(updatedByUser.getId(), booking, bookingRequestDto);
         booking = bookingRepository.save(booking);
@@ -50,13 +51,14 @@ public class BookingProcessorService {
     }
 
     public void deleteBooking(long id) {
-        if(!bookingRepository.existsById(id)) throw new ResourceNotFoundException("Booking with id " + id + " does not exist");
+        if(!bookingRepository.existsById(id))
+            throw new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("Booking", id));
         bookingRepository.deleteById(id);
     }
 
     public BookingResponseDto getBooking(long id) {
         Booking booking = bookingRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Booking with id " + id + " does not exist"));
+                () -> new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("Booking", id)));
         return BookingMapper.toBookingResponseDto(booking);
     }
 
@@ -72,20 +74,20 @@ public class BookingProcessorService {
     }
 
     public Set<BookedDeviceDto> getBookedDevices(long bookingId) {
-        Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new ResourceNotFoundException("Booking with id " + bookingId + " does not exist"));
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(
+        () -> new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("Booking", bookingId)));
         return BookingMapper.toBookedDeviceDtos(booking.getDevices());
     }
 
     public BookedRoomDto getBookedRoom(long bookingId) {
-        Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new ResourceNotFoundException("Booking with id " + bookingId + " does not exist"));
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(
+                () -> new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("Booking", bookingId)));
         return BookingMapper.toBookedRoomDto(booking.getRoom());
     }
 
     public CommentResponseDto addComment(long id, CommentRequestDto commentRequestDto) {
         if(!bookingRepository.existsById(id))
-            throw new ResourceNotFoundException("Booking with id " + id + " does not exist");
+            throw new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("Booking", id));
         User createdByUser = securityService.getAuthenticatedUser();
         return commentProcessorService.addComment(
                 id, createdByUser.getId(), CommentObjectType.BOOKING, commentRequestDto);
@@ -93,7 +95,7 @@ public class BookingProcessorService {
 
     public Set<CommentResponseDto> getComments(long bookingId) {
         if(!bookingRepository.existsById(bookingId))
-            throw new ResourceNotFoundException("Booking with id " + bookingId + " does not exist");
+            throw new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("Booking", bookingId));
         return commentProcessorService.getCommentsByObjectIdAndObjectType(bookingId, CommentObjectType.BOOKING);
     }
 }

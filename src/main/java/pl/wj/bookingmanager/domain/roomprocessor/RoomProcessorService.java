@@ -10,6 +10,7 @@ import pl.wj.bookingmanager.domain.roomprocessor.model.Room;
 import pl.wj.bookingmanager.domain.roomprocessor.model.RoomMapper;
 import pl.wj.bookingmanager.domain.roomprocessor.model.dto.RoomRequestDto;
 import pl.wj.bookingmanager.domain.roomprocessor.model.dto.RoomResponseDto;
+import pl.wj.bookingmanager.infrastructure.exception.ExceptionMessage;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class RoomProcessorService {
 
     public RoomResponseDto updateRoom(long id, RoomRequestDto roomRequestDto) {
         Room room = roomRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Room with id " + id + " does not exist"));
+                () -> new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("Room", id)));
         room = RoomMapper.toRoom(room, roomRequestDto);
         room = roomRepository.save(room);
         return RoomMapper.toRoomResponseDto(room);
@@ -35,7 +36,7 @@ public class RoomProcessorService {
 
     public RoomResponseDto getRoom(long id) {
         Room room = roomRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Room with id " + id + " does not exist"));
+                () -> new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("Room", id)));
         return RoomMapper.toRoomResponseDto(room);
     }
 

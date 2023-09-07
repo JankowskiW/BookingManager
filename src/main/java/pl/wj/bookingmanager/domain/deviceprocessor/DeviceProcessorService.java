@@ -10,6 +10,7 @@ import pl.wj.bookingmanager.domain.deviceprocessor.model.Device;
 import pl.wj.bookingmanager.domain.deviceprocessor.model.DeviceMapper;
 import pl.wj.bookingmanager.domain.deviceprocessor.model.dto.DeviceRequestDto;
 import pl.wj.bookingmanager.domain.deviceprocessor.model.dto.DeviceResponseDto;
+import pl.wj.bookingmanager.infrastructure.exception.ExceptionMessage;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class DeviceProcessorService {
 
     public DeviceResponseDto updateDevice(long id, DeviceRequestDto deviceRequestDto) {
         Device device = deviceRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Device with id " + id + " does not exist"));
+            () -> new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("Device", id)));
         device = DeviceMapper.toDevice(device, deviceRequestDto);
         device = deviceRepository.save(device);
         return DeviceMapper.toDeviceResponseDto(device);
@@ -35,7 +36,7 @@ public class DeviceProcessorService {
 
     public DeviceResponseDto getDevice(long id) {
         Device device = deviceRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Device with id " + id + " does not exist"));
+                () -> new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("Device", id)));
         return DeviceMapper.toDeviceResponseDto(device);
     }
 

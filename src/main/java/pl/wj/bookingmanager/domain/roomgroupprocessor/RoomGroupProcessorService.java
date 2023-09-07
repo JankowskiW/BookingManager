@@ -10,6 +10,7 @@ import pl.wj.bookingmanager.domain.roomgroupprocessor.model.RoomGroup;
 import pl.wj.bookingmanager.domain.roomgroupprocessor.model.RoomGroupMapper;
 import pl.wj.bookingmanager.domain.roomgroupprocessor.model.dto.RoomGroupRequestDto;
 import pl.wj.bookingmanager.domain.roomgroupprocessor.model.dto.RoomGroupResponseDto;
+import pl.wj.bookingmanager.infrastructure.exception.ExceptionMessage;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class RoomGroupProcessorService {
 
     public RoomGroupResponseDto updateRoomGroup(long id, RoomGroupRequestDto roomGroupRequestDto) {
         if (!roomGroupRepository.existsById(id))
-            throw new ResourceNotFoundException("Room group with id " + id + " does not exist");
+            throw new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("RoomGroup", id));
         RoomGroup roomGroup = RoomGroupMapper.toRoomGroup(id, roomGroupRequestDto);
         roomGroup = roomGroupRepository.save(roomGroup);
         return RoomGroupMapper.toRoomGroupResponseDto(roomGroup);

@@ -10,6 +10,7 @@ import pl.wj.bookingmanager.domain.devicegroupprocessor.model.DeviceGroup;
 import pl.wj.bookingmanager.domain.devicegroupprocessor.model.DeviceGroupMapper;
 import pl.wj.bookingmanager.domain.devicegroupprocessor.model.dto.DeviceGroupRequestDto;
 import pl.wj.bookingmanager.domain.devicegroupprocessor.model.dto.DeviceGroupResponseDto;
+import pl.wj.bookingmanager.infrastructure.exception.ExceptionMessage;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class DeviceGroupProcessorService {
 
     public DeviceGroupResponseDto updateDeviceGroup(long id, DeviceGroupRequestDto deviceGroupRequestDto) {
         if (!deviceGroupRepository.existsById(id))
-            throw new ResourceNotFoundException("Device group with id " + id + " does not exist");
+            throw new ResourceNotFoundException(ExceptionMessage.getResourceNotFoundMessage("DeviceGroup", id));
         DeviceGroup deviceGroup = DeviceGroupMapper.toDeviceGroup(id, deviceGroupRequestDto);
         deviceGroup = deviceGroupRepository.save(deviceGroup);
         return DeviceGroupMapper.toDeviceGroupResponseDto(deviceGroup);
