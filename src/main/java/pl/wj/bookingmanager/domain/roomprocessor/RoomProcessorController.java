@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.wj.bookingmanager.common.PaginationHelper;
+import pl.wj.bookingmanager.common.enumerator.AvailabilityStatus;
 import pl.wj.bookingmanager.domain.roomprocessor.model.dto.RoomRequestDto;
 import pl.wj.bookingmanager.domain.roomprocessor.model.dto.RoomResponseDto;
 
@@ -35,29 +36,12 @@ public class RoomProcessorController {
     }
 
     @GetMapping
-    public Page<RoomResponseDto> getAllRooms(@RequestParam(required = false) Integer pageNumber,
-                                                 @RequestParam(required = false) Integer pageSize,
-                                                 @RequestParam(required = false) Sort.Direction direction,
-                                                 @RequestParam(required = false) String sortBy) {
+    public Page<RoomResponseDto> getRooms(@RequestParam AvailabilityStatus availabilityStatus,
+                                              @RequestParam(required = false) Integer pageNumber,
+                                              @RequestParam(required = false) Integer pageSize,
+                                              @RequestParam(required = false) Sort.Direction direction,
+                                              @RequestParam(required = false) String sortBy) {
         Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
-        return roomProcessorService.getAllRooms(pageable);
-    }
-
-    @GetMapping("/available")
-    public Page<RoomResponseDto> getAvailableRooms(@RequestParam(required = false) Integer pageNumber,
-                                                       @RequestParam(required = false) Integer pageSize,
-                                                       @RequestParam(required = false) Sort.Direction direction,
-                                                       @RequestParam(required = false) String sortBy) {
-        Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
-        return roomProcessorService.getAvailableRooms(pageable);
-    }
-
-    @GetMapping("/unavailable")
-    public Page<RoomResponseDto> getUnavailableRooms(@RequestParam(required = false) Integer pageNumber,
-                                                         @RequestParam(required = false) Integer pageSize,
-                                                         @RequestParam(required = false) Sort.Direction direction,
-                                                         @RequestParam(required = false) String sortBy) {
-        Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
-        return roomProcessorService.getUnavailableRooms(pageable);
+        return roomProcessorService.getRooms(availabilityStatus, pageable);
     }
 }

@@ -1,4 +1,4 @@
-package pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model;
+package pl.wj.bookingmanager.domain.roomgroupprocessor.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

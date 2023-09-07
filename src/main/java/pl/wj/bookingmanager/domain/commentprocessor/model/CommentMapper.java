@@ -1,6 +1,6 @@
 package pl.wj.bookingmanager.domain.commentprocessor.model;
 
-import pl.wj.bookingmanager.common.CommentObjectType;
+import pl.wj.bookingmanager.common.enumerator.CommentObjectType;
 import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentRequestDto;
 import pl.wj.bookingmanager.domain.commentprocessor.model.dto.CommentResponseDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.User;

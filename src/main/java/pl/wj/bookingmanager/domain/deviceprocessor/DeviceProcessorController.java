@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.wj.bookingmanager.common.PaginationHelper;
+import pl.wj.bookingmanager.common.enumerator.AvailabilityStatus;
 import pl.wj.bookingmanager.domain.deviceprocessor.model.dto.DeviceRequestDto;
 import pl.wj.bookingmanager.domain.deviceprocessor.model.dto.DeviceResponseDto;
 
@@ -35,29 +36,12 @@ public class DeviceProcessorController {
     }
 
     @GetMapping
-    public Page<DeviceResponseDto> getAllDevices(@RequestParam(required = false) Integer pageNumber,
-                                                   @RequestParam(required = false) Integer pageSize,
-                                                   @RequestParam(required = false) Sort.Direction direction,
-                                                   @RequestParam(required = false) String sortBy) {
+    public Page<DeviceResponseDto> getDevices(@RequestParam AvailabilityStatus availabilityStatus,
+                                              @RequestParam(required = false) Integer pageNumber,
+                                              @RequestParam(required = false) Integer pageSize,
+                                              @RequestParam(required = false) Sort.Direction direction,
+                                              @RequestParam(required = false) String sortBy) {
         Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
-        return deviceProcessorService.getAllDevices(pageable);
-    }
-
-    @GetMapping("/available")
-    public Page<DeviceResponseDto> getAvailableDevices(@RequestParam(required = false) Integer pageNumber,
-                                                 @RequestParam(required = false) Integer pageSize,
-                                                 @RequestParam(required = false) Sort.Direction direction,
-                                                 @RequestParam(required = false) String sortBy) {
-        Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
-        return deviceProcessorService.getAvailableDevices(pageable);
-    }
-
-    @GetMapping("/unavailable")
-    public Page<DeviceResponseDto> getUnavailableDevices(@RequestParam(required = false) Integer pageNumber,
-                                                 @RequestParam(required = false) Integer pageSize,
-                                                 @RequestParam(required = false) Sort.Direction direction,
-                                                 @RequestParam(required = false) String sortBy) {
-        Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
-        return deviceProcessorService.getUnavailableDevices(pageable);
+        return deviceProcessorService.getDevices(availabilityStatus, pageable);
     }
 }

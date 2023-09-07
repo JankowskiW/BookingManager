@@ -1,4 +1,4 @@
-package pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto;
+package pl.wj.bookingmanager.domain.roomgroupprocessor.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

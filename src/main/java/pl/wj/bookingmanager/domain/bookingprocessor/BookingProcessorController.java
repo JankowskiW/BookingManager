@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.wj.bookingmanager.common.PaginationHelper;
+import pl.wj.bookingmanager.common.enumerator.BookingStatus;
 import pl.wj.bookingmanager.domain.bookingprocessor.model.dto.BookedDeviceDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.model.dto.BookedRoomDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.model.dto.BookingRequestDto;
@@ -48,39 +49,13 @@ public class BookingProcessorController {
     }
 
     @GetMapping
-    public Page<BookingResponseDto> getAllBookings(@RequestParam(required = false) Integer pageNumber,
-                                                   @RequestParam(required = false) Integer pageSize,
-                                                   @RequestParam(required = false) Sort.Direction direction,
-                                                   @RequestParam(required = false) String sortBy) {
+    public Page<BookingResponseDto> getBookings(@RequestParam BookingStatus bookingStatus,
+                                                @RequestParam(required = false) Integer pageNumber,
+                                                @RequestParam(required = false) Integer pageSize,
+                                                @RequestParam(required = false) Sort.Direction direction,
+                                                @RequestParam(required = false) String sortBy) {
         Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
-        return bookingProcessorService.getAllBookings(pageable);
-    }
-
-    @GetMapping("/active")
-    public Page<BookingResponseDto> getActiveBookings(@RequestParam(required = false) Integer pageNumber,
-                                                      @RequestParam(required = false) Integer pageSize,
-                                                      @RequestParam(required = false) Sort.Direction direction,
-                                                      @RequestParam(required = false) String sortBy) {
-        Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
-        return bookingProcessorService.getActiveBookings(pageable);
-    }
-
-    @GetMapping("/future")
-    public Page<BookingResponseDto> getFutureBookings(@RequestParam(required = false) Integer pageNumber,
-                                                      @RequestParam(required = false) Integer pageSize,
-                                                      @RequestParam(required = false) Sort.Direction direction,
-                                                      @RequestParam(required = false) String sortBy) {
-        Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
-        return bookingProcessorService.getFutureBookings(pageable);
-    }
-
-    @GetMapping("/expired")
-    public Page<BookingResponseDto> getExpiredBookings(@RequestParam(required = false) Integer pageNumber,
-                                                       @RequestParam(required = false) Integer pageSize,
-                                                       @RequestParam(required = false) Sort.Direction direction,
-                                                       @RequestParam(required = false) String sortBy) {
-        Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
-        return bookingProcessorService.getExpiredBookings(pageable);
+        return bookingProcessorService.getBookings(bookingStatus, pageable);
     }
 
     @GetMapping("/{id}/devices")

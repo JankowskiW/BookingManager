@@ -2,9 +2,11 @@ package pl.wj.bookingmanager.domain.userprocessor;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.wj.bookingmanager.common.enumerator.UserStatus;
 import pl.wj.bookingmanager.domain.userprocessor.model.User;
 import pl.wj.bookingmanager.domain.userprocessor.model.UserMapper;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserRegisterRequestDto;
@@ -13,6 +15,8 @@ import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserSecurityDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserUpdateRequestDto;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceAlreadyExistsException;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,16 +31,14 @@ public class UserProcessorService {
         return UserMapper.toUserSecurityDto(UserMapper.toCustomUserDetails(user));
     }
 
-    public Page<UserResponseDto> getUsers(Pageable pageable) {
-        return UserMapper.toUserResponseDtoPage(userRepository.findAll(pageable));
-    }
-
-    public Page<UserResponseDto> getArchivedUsers(Pageable pageable) {
-        return UserMapper.toUserResponseDtoPage(userRepository.findAllByArchived(true, pageable));
-    }
-
-    public Page<UserResponseDto> getActiveUsers(Pageable pageable) {
-        return UserMapper.toUserResponseDtoPage(userRepository.findAllByArchived(false, pageable));
+    public Page<UserResponseDto> getUsers(UserStatus userStatus, Pageable pageable) {
+        Page<User> users = new PageImpl<>(List.of());
+        switch (userStatus){
+            case ALL -> users = userRepository.findAll(pageable);
+            case ACTIVE, ARCHIVED ->
+                users = userRepository.findAllByArchived(userStatus.getArchived(), pageable);
+        }
+        return UserMapper.toUserResponseDtoPage(users);
     }
 
     public UserResponseDto addUser(UserRegisterRequestDto userRegisterRequestDto) {

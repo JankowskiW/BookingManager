@@ -2,9 +2,11 @@ package pl.wj.bookingmanager.domain.bookingprocessor;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pl.wj.bookingmanager.common.CommentObjectType;
+import pl.wj.bookingmanager.common.enumerator.BookingStatus;
+import pl.wj.bookingmanager.common.enumerator.CommentObjectType;
 import pl.wj.bookingmanager.domain.bookingprocessor.model.Booking;
 import pl.wj.bookingmanager.domain.bookingprocessor.model.BookingMapper;
 import pl.wj.bookingmanager.domain.bookingprocessor.model.dto.BookedDeviceDto;
@@ -20,6 +22,7 @@ import pl.wj.bookingmanager.infrastructure.security.SecurityService;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -57,26 +60,14 @@ public class BookingProcessorService {
         return BookingMapper.toBookingResponseDto(booking);
     }
 
-    public Page<BookingResponseDto> getAllBookings(Pageable pageable) {
-        Page<Booking> bookings = bookingRepository.findAll(pageable);
-        return BookingMapper.toBookingResponseDtoPage(bookings);
-    }
-
-    public Page<BookingResponseDto> getActiveBookings(Pageable pageable) {
-        LocalDateTime now = LocalDateTime.now(clock);
-        Page<Booking> bookings = bookingRepository.findAllActive(pageable, now);
-        return BookingMapper.toBookingResponseDtoPage(bookings);
-    }
-
-    public Page<BookingResponseDto> getFutureBookings(Pageable pageable) {
-        LocalDateTime now = LocalDateTime.now(clock);
-        Page<Booking> bookings = bookingRepository.findAllFuture(pageable, now);
-        return BookingMapper.toBookingResponseDtoPage(bookings);
-    }
-
-    public Page<BookingResponseDto> getExpiredBookings(Pageable pageable) {
-        LocalDateTime now = LocalDateTime.now(clock);
-        Page<Booking> bookings = bookingRepository.findAllExpired(pageable, now);
+    public Page<BookingResponseDto> getBookings(BookingStatus bookingStatus, Pageable pageable) {
+        Page<Booking> bookings = new PageImpl<>(List.of());
+        switch (bookingStatus) {
+            case ALL -> bookings = bookingRepository.findAll(pageable);
+            case ACTIVE -> bookings = bookingRepository.findAllActive(pageable, LocalDateTime.now(clock));
+            case EXPIRED -> bookings = bookingRepository.findAllExpired(pageable, LocalDateTime.now(clock));
+            case FUTURE -> bookings = bookingRepository.findAllFuture(pageable, LocalDateTime.now(clock));
+        }
         return BookingMapper.toBookingResponseDtoPage(bookings);
     }
 

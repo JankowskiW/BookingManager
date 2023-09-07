@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.wj.bookingmanager.common.PaginationHelper;
+import pl.wj.bookingmanager.common.enumerator.UserStatus;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserLoginRequestDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserRegisterRequestDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserResponseDto;
@@ -24,30 +25,13 @@ public class UserProcessorController {
     private final SecurityService securityService;
 
     @GetMapping
-    public Page<UserResponseDto> getUsers(@RequestParam int pageNumber,
-                                          @RequestParam int pageSize,
-                                          @RequestParam Sort.Direction direction,
-                                          @RequestParam String sortBy) {
+    public Page<UserResponseDto> getUsers(@RequestParam UserStatus userStatus,
+                                          @RequestParam(required = false) Integer pageNumber,
+                                          @RequestParam(required = false) Integer pageSize,
+                                          @RequestParam(required = false) Sort.Direction direction,
+                                          @RequestParam(required = false) String sortBy) {
         Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
-        return userProcessorService.getUsers(pageable);
-    }
-
-    @GetMapping("/archived")
-    public Page<UserResponseDto> getArchivedUsers(@RequestParam int pageNumber,
-                                                  @RequestParam int pageSize,
-                                                  @RequestParam Sort.Direction direction,
-                                                  @RequestParam String sortBy) {
-        Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
-        return userProcessorService.getArchivedUsers(pageable);
-    }
-
-    @GetMapping("/active")
-    public Page<UserResponseDto> getActiveUsers(@RequestParam int pageNumber,
-                                                @RequestParam int pageSize,
-                                                @RequestParam Sort.Direction direction,
-                                                @RequestParam String sortBy) {
-        Pageable pageable = PaginationHelper.createPagination(pageNumber, pageSize, direction, sortBy);
-        return userProcessorService.getActiveUsers(pageable);
+        return userProcessorService.getUsers(userStatus, pageable);
     }
 
     @PostMapping("/register")

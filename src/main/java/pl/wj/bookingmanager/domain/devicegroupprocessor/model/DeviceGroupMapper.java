@@ -1,8 +1,8 @@
-package pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model;
+package pl.wj.bookingmanager.domain.devicegroupprocessor.model;
 
 import org.springframework.data.domain.Page;
-import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto.DeviceGroupRequestDto;
-import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto.DeviceGroupResponseDto;
+import pl.wj.bookingmanager.domain.devicegroupprocessor.model.dto.DeviceGroupRequestDto;
+import pl.wj.bookingmanager.domain.devicegroupprocessor.model.dto.DeviceGroupResponseDto;
 import pl.wj.bookingmanager.infrastructure.exception.definition.MapperException;
 
 public class DeviceGroupMapper {

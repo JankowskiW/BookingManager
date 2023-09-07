@@ -3,7 +3,7 @@ package pl.wj.bookingmanager.domain.deviceprocessor.model;
 import jakarta.persistence.*;
 import lombok.*;
 import pl.wj.bookingmanager.domain.bookingprocessor.model.Booking;
-import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.DeviceGroup;
+import pl.wj.bookingmanager.domain.devicegroupprocessor.model.DeviceGroup;
 
 import java.util.HashSet;
 import java.util.Set;
