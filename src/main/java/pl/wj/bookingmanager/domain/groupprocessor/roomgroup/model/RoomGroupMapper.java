@@ -1,8 +1,8 @@
 package pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model;
 
 import org.springframework.data.domain.Page;
-import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupResponseDto;
 import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupRequestDto;
+import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupResponseDto;
 import pl.wj.bookingmanager.infrastructure.exception.definition.MapperException;
 
 public class RoomGroupMapper {

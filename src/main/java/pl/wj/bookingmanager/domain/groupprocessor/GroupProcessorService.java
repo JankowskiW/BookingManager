@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.DeviceGroupRepository;
 import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.DeviceGroup;
 import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.DeviceGroupMapper;
-import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto.DeviceGroupResponseDto;
 import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto.DeviceGroupRequestDto;
+import pl.wj.bookingmanager.domain.groupprocessor.devicegroup.model.dto.DeviceGroupResponseDto;
 import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.RoomGroupRepository;
 import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.RoomGroup;
 import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.RoomGroupMapper;
-import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupResponseDto;
 import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupRequestDto;
+import pl.wj.bookingmanager.domain.groupprocessor.roomgroup.model.dto.RoomGroupResponseDto;
 import pl.wj.bookingmanager.infrastructure.exception.definition.ResourceNotFoundException;
 
 @Service

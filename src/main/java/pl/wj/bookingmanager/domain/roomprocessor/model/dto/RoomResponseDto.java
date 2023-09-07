@@ -1,4 +1,12 @@
 package pl.wj.bookingmanager.domain.roomprocessor.model.dto;
 
-public class RoomResponseDto {
-}
+import lombok.Builder;
+
+@Builder
+public record RoomResponseDto (
+        long id,
+        String name,
+        String description,
+        String location,
+        boolean available
+) {}
