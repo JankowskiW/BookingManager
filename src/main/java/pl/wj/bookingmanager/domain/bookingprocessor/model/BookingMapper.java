@@ -7,6 +7,7 @@ import pl.wj.bookingmanager.domain.bookingprocessor.model.dto.BookingRequestDto;
 import pl.wj.bookingmanager.domain.bookingprocessor.model.dto.BookingResponseDto;
 import pl.wj.bookingmanager.domain.deviceprocessor.model.Device;
 import pl.wj.bookingmanager.domain.roomprocessor.model.Room;
+import pl.wj.bookingmanager.infrastructure.exception.ExceptionMessage;
 import pl.wj.bookingmanager.infrastructure.exception.definition.MapperException;
 
 import java.util.Set;
@@ -14,7 +15,8 @@ import java.util.stream.Collectors;
 
 public class BookingMapper {
     public static Booking toBooking(long createdBy, BookingRequestDto bookingRequestDto) {
-        if (bookingRequestDto == null) throw new MapperException("BookingRequestDto is null");
+        if (bookingRequestDto == null)
+            throw new MapperException(ExceptionMessage.getMapperMessage("null", "BookingRequestDto"));
         return Booking.builder()
                 .title(bookingRequestDto.title())
                 .description(bookingRequestDto.description())
@@ -26,8 +28,10 @@ public class BookingMapper {
     }
 
     public static Booking toBooking(long updatedBy, Booking booking, BookingRequestDto bookingRequestDto) {
-        if (booking == null) throw new MapperException("Booking is null");
-        if (bookingRequestDto == null) throw new MapperException("BookingRequestDto is null");
+        if (booking == null)
+            throw new MapperException(ExceptionMessage.getMapperMessage("null", "Booking"));
+        if (bookingRequestDto == null)
+            throw new MapperException(ExceptionMessage.getMapperMessage("null", "BookingRequestDto"));
         booking.setTitle(bookingRequestDto.title());
         booking.setDescription(bookingRequestDto.description());
         booking.setUpdatedBy(updatedBy);
@@ -37,7 +41,8 @@ public class BookingMapper {
     }
 
     public static BookingResponseDto toBookingResponseDto(Booking booking) {
-        if (booking == null) throw new MapperException("Booking is null");
+        if (booking == null)
+            throw new MapperException(ExceptionMessage.getMapperMessage("null", "Booking"));
         return BookingResponseDto.builder()
                 .id(booking.getId())
                 .title(booking.getTitle())
@@ -52,17 +57,20 @@ public class BookingMapper {
     }
 
     public static Page<BookingResponseDto> toBookingResponseDtoPage(Page<Booking> bookings) {
-        if (bookings == null) throw new MapperException("Page<Booking> is null");
+        if (bookings == null)
+            throw new MapperException(ExceptionMessage.getMapperMessage("null", "Page<Booking>"));
         return bookings.map(BookingMapper::toBookingResponseDto);
     }
 
     public static Set<BookedDeviceDto> toBookedDeviceDtos(Set<Device> devices) {
-        if (devices == null) throw new MapperException("Set<Device> is null");
+        if (devices == null)
+            throw new MapperException(ExceptionMessage.getMapperMessage("null", "Set<Device>"));
         return devices.stream().map(BookingMapper::toBookedDeviceDto).collect(Collectors.toSet());
     }
 
     public static BookedDeviceDto toBookedDeviceDto(Device device) {
-        if (device == null) throw new MapperException("Device is null");
+        if (device == null)
+            throw new MapperException(ExceptionMessage.getMapperMessage("null", "Device"));
         return BookedDeviceDto.builder()
                 .id(device.getId())
                 .name(device.getName())
@@ -72,7 +80,8 @@ public class BookingMapper {
     }
 
     public static BookedRoomDto toBookedRoomDto(Room room) {
-        if (room == null) throw new MapperException("Room is null");
+        if (room == null)
+            throw new MapperException(ExceptionMessage.getMapperMessage("null", "Room"));
         return BookedRoomDto.builder()
                 .id(room.getId())
                 .name(room.getName())

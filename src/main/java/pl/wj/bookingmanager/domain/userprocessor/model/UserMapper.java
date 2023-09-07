@@ -7,12 +7,13 @@ import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserRegisterRequestDt
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserResponseDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserSecurityDto;
 import pl.wj.bookingmanager.domain.userprocessor.model.dto.UserUpdateRequestDto;
+import pl.wj.bookingmanager.infrastructure.exception.ExceptionMessage;
 import pl.wj.bookingmanager.infrastructure.exception.definition.MapperException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserMapper {
     public static CustomUserDetails toCustomUserDetails(User user) {
-        if (user == null) throw new MapperException("User is null");
+        if (user == null) throw new MapperException(ExceptionMessage.getMapperMessage("null", "User"));
         return CustomUserDetails.builder()
                 .id(user.getId())
                 .username(user.getUsername())
@@ -26,8 +27,10 @@ public class UserMapper {
     }
 
     public static User toUser(UserRegisterRequestDto userRegisterRequestDto, String encodedPassword) {
-        if (userRegisterRequestDto == null) throw new MapperException("UserRegisterRequestDto is null");
-        if (encodedPassword == null || encodedPassword.isBlank()) throw new MapperException("encodedPassword is null or blank");
+        if (userRegisterRequestDto == null)
+            throw new MapperException(ExceptionMessage.getMapperMessage("null", "UserRegisterRequestDto"));
+        if (encodedPassword == null || encodedPassword.isBlank())
+            throw new MapperException(ExceptionMessage.getMapperMessage("null-or-blank", "UserRegisterRequestDto"));
         return User.builder()
                 .username(userRegisterRequestDto.username())
                 .password(encodedPassword)
@@ -40,8 +43,10 @@ public class UserMapper {
     }
 
     public static User toUser(long id, UserUpdateRequestDto userUpdateRequestDto, String encodedPassword) {
-        if (userUpdateRequestDto == null) throw new MapperException("UserUpdateRequestDto is null");
-        if (encodedPassword == null || encodedPassword.isBlank()) throw new MapperException("encodedPassword is null or blank");
+        if (userUpdateRequestDto == null)
+            throw new MapperException(ExceptionMessage.getMapperMessage("null", "UserUpdateRequestDto"));
+        if (encodedPassword == null || encodedPassword.isBlank())
+            throw new MapperException(ExceptionMessage.getMapperMessage("null-or-blank", "UserUpdateRequestDto"));
         return User.builder()
                 .id(id)
                 .username(userUpdateRequestDto.username())
@@ -55,7 +60,8 @@ public class UserMapper {
     }
 
     public static UserResponseDto toUserResponseDto(User user) {
-        if (user == null) throw new MapperException("User is null");
+        if (user == null)
+            throw new MapperException(ExceptionMessage.getMapperMessage("null", "User"));
         return UserResponseDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
@@ -68,7 +74,8 @@ public class UserMapper {
     }
 
     public static UserSecurityDto toUserSecurityDto(CustomUserDetails customUserDetails) {
-        if (customUserDetails == null) throw new MapperException("CustomUserDetails is null");
+        if (customUserDetails == null)
+            throw new MapperException(ExceptionMessage.getMapperMessage("null", "CustomUserDetails"));
         return UserSecurityDto.builder()
                 .username(customUserDetails.username())
                 .password(customUserDetails.password())
@@ -76,7 +83,8 @@ public class UserMapper {
     }
 
     public static Page<UserResponseDto> toUserResponseDtoPage(Page<User> users) {
-        if (users == null) throw new MapperException("Page<User> is null");
+        if (users == null)
+            throw new MapperException(ExceptionMessage.getMapperMessage("null", "Page<User>"));
         return users.map(UserMapper::toUserResponseDto);
     }
 }
